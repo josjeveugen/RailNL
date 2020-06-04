@@ -53,3 +53,6 @@ class Connections(object):
 if __name__ == "__main__":
     connections = [["adam", "eindhoven", 5], ["adam", "utrecht", 10], ["adam", "urk", 9]]
     test = Connections(connections)
+    # test
+
+
