@@ -17,7 +17,7 @@ class City(object):
 
     def get_time(self, city):
         i = 0
-        for value in neighbours:
+        for value in self.neighbours:
             if value == city: # check of dit zo kan?
                 return self.time[i]
             i += 1

@@ -11,6 +11,7 @@ class City(object):
         # dit houdt de tijden bij (de tijd op index 0 is de tijd van de city
         # op index 0 van neighbours)
         self.times = []
+        
 
     # voeg een verbonden stad toe die ook een node is
     def add_neighbour(self, neighbour, time):
@@ -27,38 +28,30 @@ class City(object):
 
     def get_time(self, city):
         i = 0
-        for value in neighbours:
-            if value == city: # check of dit zo kan?
-                return self.time[i]
+        for city_node in self.neighbours:
+            if city_node == city: # check of dit zo kan?
+                return self.times[i]
             i += 1
-
 
 
 class Connections(object):
     def __init__(self, connections = []):
         self.cities = []
         self.city_ids = {}
+        self.connections = []
+        # loading the cities into self.cities and city_ids
         self.load_cities(connections)
-
+        
 
     def load_cities(self, connections_file):
-        # the list that contains all the connections
-        connections = []
-
         with open(connections_file, 'r') as file:
             reader = csv.DictReader(file)
             for row in reader:
-                # the list with every neighbour for an individual city
-                neighbours = []
                 city1 = row["station1"]
                 city2 = row["station2"]
                 time = row["distance"]
 
-                # Add the neighbours to the list of the city
-                neighbours.append(city1)
-                neighbours.append(city2)
-                neighbours.append(time)
-                connections.append(neighbours)
+                self.connections.append([city1, city2, time])
 
                 if city1 not in self.city_ids:
                     self.cities.append(City(city1))
