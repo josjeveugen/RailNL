@@ -1,14 +1,9 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Jun  5 11:21:31 2020
-
-@author: ambercok
-"""
-
 from connections import City
 from connections import Connections
 import random
+
+# idee is dat het random algoritme steeds random een buurstad kiest.
+# het algoritme stopt wanneer het alle verbindingen heeft gehad.
 
 class Random(object):
     def __init__(self, connections_object):
@@ -20,39 +15,43 @@ class Random(object):
         self.max_trajects = 7
         self.max_time = 120
         self.total_time = 0
-        self.total_trajects = 0
         
         print(self.all_connections)
-        
+     
+    # dit is het random algoritme dat de trajecten probeert te vinden.
     def find_traject(self):
         for i in range(self.max_trajects):
             start = random.randint(0, len(self.cities) - 1)
             start_city = self.cities[start]
             time = 0
+            # wordt gebruikt om te checken of het traject niet over tijdslimiet gaat.
             under_timelimit = True
-            traject = [start_city]
+            traject = [start_city.name]
             
             print("start:", start_city.name, time, traject)
             
             while under_timelimit:
-                # checkt of alle mogelijke verbindingen al zijn gemaakt.
+                # stopt het find_traject algoritme wanneer alle verbindingen al zijn gemaakt
                 if len(self.used_connections) == len(self.all_connections):
                     return self.score()
                 
+                # checkt welke neighbours er zijn en of ze niet dubbel gebruikt zullen worden.
                 neighbours = start_city.get_neighbours()
                 neighbours = self.check_traject(start_city, neighbours)
+                # random buur kiezen
                 random_val = random.randint(0, len(neighbours) - 1)
                 next_city = neighbours[random_val]
-                traject.append(next_city)
+                traject.append(next_city.name)
                 next_time = start_city.get_time(next_city)
                 
-                # check of niet over limit gaat
+                # begint nieuw traject als het tijdslimiet overschreden is.
                 if time + next_time >= self.max_time:
                     under_timelimit = False
                     break
 
                 time += next_time
                 
+                # nieuwe stad wordt toegevoegd aan used_connections
                 city_pair = [start_city.name, next_city.name]
                 city_pair.sort()
                 if city_pair not in self.used_connections:
@@ -64,11 +63,11 @@ class Random(object):
 
             self.trajects.append(traject)
             self.total_time += time
-            self.total_trajects += 1
             
         return self.score()
         
-        
+    
+    # checkt of de buren niet al eerder zijn gebruikt.
     def check_traject(self, city, neighbours):
         new_neigh = []
         for neighbour in neighbours:
@@ -77,16 +76,23 @@ class Random(object):
             if city_pair not in self.used_connections:
                 new_neigh.append(neighbour)
         
+        # geeft de alle buren mee indien alle buren als eens zijn gebruikt.
         if new_neigh == []:
             print("all neighbours are already used")
             return neighbours
         return new_neigh
     
+    # berekent de kwaliteit van de lijnvoering
     def score(self):
         p = len(self.used_connections) / len(self.all_connections)
         print(len(self.used_connections), len(self.all_connections), self.used_connections)
-        print(p, self.total_trajects, self.total_time)
-        return p * 10000 - (self.total_trajects * 100 + self.total_time)
+        print(p, len(self.trajects), self.total_time)
+        return p * 10000 - (len(self.trajects) * 100 + self.total_time)
+    
+    # geeft de output voor in het csv bestand.
+    def output(self):
+        score = self.score()
+        pass
         
 
 if __name__ == "__main__":
