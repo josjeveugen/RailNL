@@ -20,20 +20,12 @@ class City(object):
 
     def get_time(self, city):
         i = 0
-<<<<<<< HEAD
-        for city_node in self.neighbours:
-            if city_node == city: # check of dit zo kan?
-                return self.times[i]
-            i += 1
 
-
-=======
         for value in self.neighbours:
             if value == city:  # check of dit zo kan?
                 return self.times[i]
             i += 1
 
->>>>>>> 3868046b8d55be8c936f4c5232d6382ef68a6b11
 class Connections(object):
     def __init__(self, connections = []):
         self.cities = []
@@ -41,10 +33,7 @@ class Connections(object):
         self.connections = []
         # loading the cities into self.cities and city_ids
         self.load_cities(connections)
-<<<<<<< HEAD
-        
-=======
->>>>>>> 3868046b8d55be8c936f4c5232d6382ef68a6b11
+
 
     def load_cities(self, connections_file):
         with open(connections_file, 'r') as file:
@@ -64,7 +53,6 @@ class Connections(object):
                     self.cities.append(City(city2))
                     self.city_ids[city2] = len(self.city_ids)
 
-                # The prints are for testing purposes
                 city_node1 = self.cities[self.city_ids[city1]]
                 city_node2 = self.cities[self.city_ids[city2]]
 
