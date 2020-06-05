@@ -77,7 +77,6 @@ class Connections(object):
         # Testing print all the cities with their ID
         print(self.city_ids)
 
-
 if __name__ == "__main__":
     # Run the connections class with the connections file
     test = Connections("data/ConnectiesHolland.csv")
