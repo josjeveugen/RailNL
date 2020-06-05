@@ -25,14 +25,17 @@ class City(object):
             if value == city:  # check of dit zo kan?
                 return self.times[i]
             i += 1
+            
+    def get_neighbours(self):
+        return self.neighbours
 
 class Connections(object):
-    def __init__(self, connections = []):
+    def __init__(self, connections_file):
         self.cities = []
         self.city_ids = {}
         self.connections = []
         # loading the cities into self.cities and city_ids
-        self.load_cities(connections)
+        self.load_cities(connections_file)
 
 
     def load_cities(self, connections_file):
@@ -58,6 +61,7 @@ class Connections(object):
 
                 city_node1.add_neighbour(city_node2, time)
                 city_node2.add_neighbour(city_node1, time)
+
 
 if __name__ == "__main__":
     # Run the connections class with the connections file
