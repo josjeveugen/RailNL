@@ -36,12 +36,12 @@ class City(object):
 
 class Connections(object):
     def __init__(self, connections = []):
-        self.nodes = []
+        self.cities = []
         self.city_ids = {}
-        self.load_nodes(connections)
+        self.load_cities(connections)
 
 
-    def load_nodes(self, connections_file):
+    def load_cities(self, connections_file):
         # the list that contains all the connections
         connections = []
 
@@ -61,16 +61,16 @@ class Connections(object):
                 connections.append(neighbours)
 
                 if city1 not in self.city_ids:
-                    self.nodes.append(City(city1))
+                    self.cities.append(City(city1))
                     self.city_ids[city1] = len(self.city_ids)
 
                 if city2 not in self.city_ids:
-                    self.nodes.append(City(city2))
+                    self.cities.append(City(city2))
                     self.city_ids[city2] = len(self.city_ids)
 
                 # The prints are for testing purposes
-                city_node1 = self.nodes[self.city_ids[city1]]
-                city_node2 = self.nodes[self.city_ids[city2]]
+                city_node1 = self.cities[self.city_ids[city1]]
+                city_node2 = self.cities[self.city_ids[city2]]
 
                 # Print the ID of the city
                 print(self.city_ids[city1])
@@ -78,7 +78,7 @@ class Connections(object):
                 print(self.city_ids[city2])
                 city_node2.add_neighbour(city_node1, time)
 
-        # Testing print all the citys with their ID
+        # Testing print all the cities with their ID
         print(self.city_ids)
 
 
