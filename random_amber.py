@@ -1,6 +1,7 @@
 from connections import City
 from connections import Connections
 import random
+import csv
 
 # idee is dat het random algoritme steeds random een buurstad kiest.
 # het algoritme stopt wanneer het alle verbindingen heeft gehad.
@@ -33,7 +34,7 @@ class Random(object):
             while under_timelimit:
                 # stopt het find_traject algoritme wanneer alle verbindingen al zijn gemaakt
                 if len(self.used_connections) == len(self.all_connections):
-                    return self.score()
+                    return self.output()
                 
                 # checkt welke neighbours er zijn en of ze niet dubbel gebruikt zullen worden.
                 neighbours = start_city.get_neighbours()
@@ -64,7 +65,7 @@ class Random(object):
             self.trajects.append(traject)
             self.total_time += time
             
-        return self.score()
+        return self.output()
         
     
     # checkt of de buren niet al eerder zijn gebruikt.
@@ -92,6 +93,16 @@ class Random(object):
     # geeft de output voor in het csv bestand.
     def output(self):
         score = self.score()
+        output = [["train", "stations"]]
+        for i, traject in enumerate(self.trajects):
+            string = "train_"+str(i)
+            output.append([string, traject])
+        output.append(["score", score])
+            
+        print(output)
+        with open('testoutput.csv', 'w', newline='') as file:
+            writer = csv.writer(file, delimiter=',')
+            writer.writerows(output)
         pass
         
 
