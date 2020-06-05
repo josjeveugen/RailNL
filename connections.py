@@ -24,22 +24,18 @@ class City(object):
         print(self.times)
         print("\n")
 
-
     def get_time(self, city):
         i = 0
-        for value in neighbours:
-            if value == city: # check of dit zo kan?
-                return self.time[i]
+        for value in self.neighbours:
+            if value == city:  # check of dit zo kan?
+                return self.times[i]
             i += 1
-
-
 
 class Connections(object):
     def __init__(self, connections = []):
         self.cities = []
         self.city_ids = {}
         self.load_cities(connections)
-
 
     def load_cities(self, connections_file):
         # the list that contains all the connections
