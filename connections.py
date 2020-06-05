@@ -18,7 +18,7 @@ class City(object):
         self.times.append(time)
 
         # for testing purposes in the terminal
-        # ?? How to link the neighbours to the ID of the city??
+        # Show all the city's neighbours and then their travel duration
         for city in self.neighbours:
             print(city.name)
         print(self.times)
@@ -37,13 +37,14 @@ class City(object):
 class Connections(object):
     def __init__(self, connections = []):
         self.nodes = []
-        self.ids = {}
+        self.city_ids = {}
         self.load_nodes(connections)
 
 
     def load_nodes(self, connections_file):
         # the list that contains all the connections
         connections = []
+
         with open(connections_file, 'r') as file:
             reader = csv.DictReader(file)
             for row in reader:
@@ -59,27 +60,29 @@ class Connections(object):
                 neighbours.append(time)
                 connections.append(neighbours)
 
-                if city1 not in self.ids:
+                if city1 not in self.city_ids:
                     self.nodes.append(City(city1))
-                    self.ids[city1] = len(self.ids)
+                    self.city_ids[city1] = len(self.city_ids)
 
-                if city2 not in self.ids:
+                if city2 not in self.city_ids:
                     self.nodes.append(City(city2))
-                    self.ids[city2] = len(self.ids)
+                    self.city_ids[city2] = len(self.city_ids)
 
                 # The prints are for testing purposes
-                city_node1 = self.nodes[self.ids[city1]]
-                city_node2 = self.nodes[self.ids[city2]]
-                print(self.ids[city1])
+                city_node1 = self.nodes[self.city_ids[city1]]
+                city_node2 = self.nodes[self.city_ids[city2]]
+
+                # Print the ID of the city
+                print(self.city_ids[city1])
                 city_node1.add_neighbour(city_node2, time)
-                print(self.ids[city2])
+                print(self.city_ids[city2])
                 city_node2.add_neighbour(city_node1, time)
 
-        # Testing print
-        print(self.ids)
+        # Testing print all the citys with their ID
+        print(self.city_ids)
 
 
 if __name__ == "__main__":
-    # Run the connections function with the connections file
+    # Run the connections class with the connections file
     test = Connections("data/ConnectiesHolland.csv")
 
