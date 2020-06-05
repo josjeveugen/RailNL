@@ -17,13 +17,6 @@ class City(object):
         self.neighbours.append(neighbour)
         self.times.append(time)
 
-        # for testing purposes in the terminal
-        # Show all the city's neighbours and then their travel duration
-        for city in self.neighbours:
-            print(city.name)
-        print(self.times)
-        print("\n")
-
     def get_time(self, city):
         i = 0
         for value in self.neighbours:
@@ -68,16 +61,9 @@ class Connections(object):
                 city_node1 = self.cities[self.city_ids[city1]]
                 city_node2 = self.cities[self.city_ids[city2]]
 
-                # Print the ID of the city
-                print(self.city_ids[city1])
                 city_node1.add_neighbour(city_node2, time)
-                print(self.city_ids[city2])
                 city_node2.add_neighbour(city_node1, time)
-
-        # Testing print all the cities with their ID
-        print(self.city_ids)
 
 if __name__ == "__main__":
     # Run the connections class with the connections file
     test = Connections("data/ConnectiesHolland.csv")
-
