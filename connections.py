@@ -23,7 +23,7 @@ class City(object):
 
         for value in self.neighbours:
             if value == city:  # check of dit zo kan?
-                return self.times[i]
+                return int(self.times[i])
             i += 1
             
     def get_neighbours(self):
@@ -44,9 +44,13 @@ class Connections(object):
             for row in reader:
                 city1 = row["station1"]
                 city2 = row["station2"]
+                # sorting in alphabetical order
+                city_pair = [city1, city2]
+                city_pair.sort()
                 time = row["distance"]
+                city_pair.append(time)
 
-                self.connections.append([city1, city2, time])
+                self.connections.append(city_pair)
 
                 if city1 not in self.city_ids:
                     self.cities.append(City(city1))
