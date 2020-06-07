@@ -1,97 +1,116 @@
 import random
 from connections import *
+import csv
 
 # Function that prints a random 'lijnvoering'
-# It does not take already used connections into account yet
+class Trainroutes(object):
+    # Create object that holds all the trajects
+    def __init__(self, connections, locations, all_connections):
+        # This list holds all the trajects
+        self.all_routes = []
+        self.total_connections = all_connections
+        self.locations = locations
+        self.already_visited = []
+        self.total_duration = 0
+        self.num_trajecten = 7
+        self.time_limit = 120
 
-def random_outcome(connections, locations, neighbours):
-    # Determine how many trajects this lijnvoering will have by generating a random number
-    # Min 1 Max 7
-    num_trajecten = random.randint(1, 7)
-    all_connections = neighbours
+    def add_trajects(self):
+        i = 0
+        # Keep creating trajects until the max amount of traject is reached
+        while i < self.num_trajecten:
 
-    # Keeps track of the duration of the whole lijnvoering
-    total_duration = 0
-
-    # List that will contain all the trajecten and list containing already visited accounts
-    all_routes = []
-    already_visited = []
-
-    # Create a traject until the number of trajecten is reached
-    for i in range(0, num_trajecten):
-
-        # Create empty traject list upon entering a new loop
-        traject = []
-
-        # 22 stations so a number between 0 and 22
-        city_id = random.randint(0, 21)
-
-        # Find the key (station) with the value (city id)
-        station = list(locations.keys())[list(locations.values()).index(city_id)]
-
-        # That station becomes the current station
-        current_station = station
-
-        # Add the station to the traject
-        traject.append(station)
-
-        # Keep track of the duration of this particular traject
-        traject_duration = 0
-
-        # While loop that generates a random number to look up a station with
-        # Will keep looping until a new station is found that is connected with the current station
-        while True:
-
-            # Stops the loop and moves on to the next traject when the 2 hour limit is reached
-            if traject_duration > 119:
+            # Stop when all possible connections are made
+            if len(self.already_visited) == len(self.total_connections):
                 break
 
-            # Generate random number for the new station city id
-            city2_id = random.randint(0, 21)
+            # Create new traject
+            traject = []
+            traject_duration = 0
 
+            city_id = random.randint(0, (len(self.locations) - 1))
             # Find the key (station) with the value (city id)
-            station2 = list(locations.keys())[list(locations.values()).index(city2_id)]
+            station = list(self.locations.keys())[list(self.locations.values()).index(city_id)]
+            traject.append(station)
+            current_station = station
 
-            # Get the possible directions from current station
-            neighbours = connections.get_neighbours(current_station)
+            # Keep adding stations to the traject until the time limit is reached
+            while True:
+                if traject_duration > self.time_limit:
+                    break
 
-            # Loop through the neighbours and if the new station is indeed connected with the
-            # current station, add the station to the traject and make it the new current station
-            for row in neighbours:
-                if station2 in row and station2 != current_station:
+                # Stop when all possible connections are made
+                if len(self.already_visited) == len(self.total_connections):
+                    break
+
+                station2 = self.get_station()
+                neighbours = self.get_neighbours(current_station)
+                time = self.check_connection(neighbours, station2, current_station)
+
+                if time is not None:
                     traject.append(station2)
                     connection = [current_station, station2]
-                    already_visited.append(connection)
+                    self.already_visited.append(connection)
+
                     current_station = station2
-
                     # Add the time to get there to the traject and total duration
-                    time = int(row[2])
+                    self.total_duration += time
                     traject_duration += time
-                    total_duration += time
 
-        # End the traject to the lijnvoering
-        all_routes.append(traject)
+            if len(traject) > 1:
+                # Add the traject to the lijnvoering
+                self.all_routes.append(traject)
+                i += 1
 
-    # Loop through all the trajects in the lijnvoering and print them
-    x = 1
-    for row in all_routes:
-        print("train_{}:".format(x), row)
-        x += 1
+        self.print_score()
 
-    p = len(already_visited) / len(all_connections)
-    # Calculate score and print it
-    score = p * 10000 - (num_trajecten * 100 + total_duration)
-    print("score: {}".format(score))
 
+    def get_station(self):
+        # Generate random number for the new station city id
+        city2_id = random.randint(0, (len(self.locations) - 1))
+        # Find the key (station) with the value (city id)
+        station2 = list(self.locations.keys())[list(self.locations.values()).index(city2_id)]
+        return station2
+
+    # Get the neighbours from a specific station
+    def get_neighbours(self, current_station):
+        possible_locations = []
+        for city in self.total_connections:
+            if city[0] == current_station:
+                possible_locations.append(city)
+
+            elif city[1] == current_station:
+                possible_locations.append(city)
+
+        return possible_locations
+
+    # This check of the two stations are connected and returns the time to get there
+    def check_connection(self, neighbours, station2, current_station):
+        time = None
+        for row in neighbours:
+            if station2 in row and station2 != current_station:
+                time = int(row[2])
+        return time
+
+    # Calculate and write the score in a CSV file
+    def print_score(self):
+        x = 1
+        route = [["train", "station"]]
+        for row in self.all_routes:
+            route.append(["train_{}".format(x), row])
+            x += 1
+
+        p = len(self.already_visited) / len(self.total_connections)
+        score = p * 10000 - (self.num_trajecten * 100 + self.total_duration)
+        route.append(["score", score])
+        file = open('outputjulia.csv', 'w')
+        with file:
+            writer = csv.writer(file)
+            writer.writerows(route)
 
 if __name__ == "__main__":
     # Run the connections class with the connections file
     connections = Connections("data/ConnectiesHolland.csv")
-
     all_locations = connections.get_locations()
     all_connections = connections.get_all_connections()
-    random_outcome(connections, all_locations, all_connections)
-
-
-
-
+    start = Trainroutes(connections, all_locations, all_connections).add_trajects()
