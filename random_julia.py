@@ -97,12 +97,16 @@ class Trainroutes(object):
         x = 1
         route = [["train", "station"]]
         for row in self.all_routes:
+            print(["train_{}".format(x), row])
             route.append(["train_{}".format(x), row])
             x += 1
 
         p = len(self.already_visited) / len(self.total_connections)
         score = p * 10000 - (self.num_trajecten * 100 + self.total_duration)
         route.append(["score", score])
+
+        print("score", score)
+
         file = open('outputjulia.csv', 'w')
         with file:
             writer = csv.writer(file)

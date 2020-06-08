@@ -66,6 +66,14 @@ class Connections(object):
                 city_node1.add_neighbour(city_node2, time)
                 city_node2.add_neighbour(city_node1, time)
 
+    # Get all locations
+    def get_locations(self):
+        return self.city_ids
+
+    # Get all the connections
+    def get_all_connections(self):
+        return self.connections
+
 
 if __name__ == "__main__":
     # Run the connections class with the connections file
