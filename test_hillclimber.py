@@ -3,6 +3,7 @@ from connections import Connections
 import random
 import csv
 
+# kopie van random.py file om algoritme van hill climber te testen
 
 # idee is dat het random algoritme steeds random een buurstad kiest.
 # het algoritme stopt wanneer het alle verbindingen heeft gehad.
