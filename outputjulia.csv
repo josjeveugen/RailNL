@@ -1,5 +1,0 @@
-train,station
-train_1,"['Delft', 'Den Haag Centraal', 'Gouda', 'Rotterdam Alexander', 'Gouda', 'Den Haag Centraal', 'Leiden Centraal', 'Den Haag Centraal', 'Leiden Centraal', 'Den Haag Centraal', 'Gouda']"
-train_2,"['Alkmaar', 'Hoorn', 'Alkmaar', 'Castricum', 'Zaandam', 'Amsterdam Sloterdijk', 'Amsterdam Zuid', 'Amsterdam Amstel', 'Amsterdam Centraal', 'Amsterdam Amstel', 'Amsterdam Centraal']"
-train_3,"['Schiphol Airport', 'Leiden Centraal', 'Heemstede-Aerdenhout', 'Haarlem', 'Amsterdam Sloterdijk', 'Zaandam', 'Hoorn', 'Zaandam', 'Hoorn']"
-score,8911.0
