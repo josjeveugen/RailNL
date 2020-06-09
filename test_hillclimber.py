@@ -65,9 +65,9 @@ class Random(object):
 
         return self.output()
 
-    # Kiest de stad die het dichts bij ligt
+    # Kiest de stad die het dichts bij ligt door alle mogelijke buren te checken
     def get_city(self, city, neighbours):
-        # Steepest Ascent Hill climber
+        # Hill climber
         # Kies random state
         random_val = random.randint(0, len(neighbours) - 1)
         next_city = neighbours[random_val]
