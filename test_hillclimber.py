@@ -74,14 +74,19 @@ class Random(object):
         time = city.get_time(next_city)
 
         # Doe beste van alle mogelijke verbindingen
-        for i in neighbours:
-            check_city = i.name
-            check_time = city.get_time(i)
+        for neighbour in neighbours:
+            check_city = neighbour.name
+            check_time = city.get_time(neighbour)
 
-            # Verander de stad en tijd als de verbinding voordeliger is
-            if check_time < time:
-                next_city = i
-                time = check_time
+            # Check of die verbinding al is gemaakt
+            city_pair = [city.name, check_city]
+            city_pair.sort()
+
+            if city_pair not in self.used_connections:
+                # Verander de stad en tijd als de verbinding voordeliger is
+                if check_time < time:
+                    next_city = neighbour
+                    time = check_time
 
         return next_city
 
