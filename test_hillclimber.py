@@ -73,10 +73,17 @@ class Random(object):
         next_city = neighbours[random_val]
         time = city.get_time(next_city)
 
+        print("huidige city:", city.name)
+        print("huidige next city:", next_city.name)
+        print("huidige time:", time)
+
         # Doe beste van alle mogelijke verbindingen
         for neighbour in neighbours:
+            print("Neighbour:", neighbour.name)
             check_city = neighbour.name
             check_time = city.get_time(neighbour)
+            print("Neighbour time:", check_time)
+
 
             # Check of die verbinding al is gemaakt
             city_pair = [city.name, check_city]
@@ -88,6 +95,12 @@ class Random(object):
                     next_city = neighbour
                     time = check_time
 
+            print("New time:", time)
+
+        print("huidige city:", city.name)
+        print("final next city:", next_city.name)
+        print("final time:", time)
+        print("\n")
         return next_city
 
     # checkt of de buren niet al eerder zijn gebruikt.
