@@ -73,8 +73,3 @@ class Connections(object):
     # Get all the connections
     def get_all_connections(self):
         return self.connections
-
-
-if __name__ == "__main__":
-    # Run the connections class with the connections file
-    test = Connections("data/ConnectiesHolland.csv")

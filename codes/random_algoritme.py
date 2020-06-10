@@ -1,5 +1,5 @@
-from connections import City
-from connections import Connections
+from .connections import City
+from .connections import Connections
 import random
 import csv
 
@@ -42,7 +42,6 @@ class Random(object):
                 # random buur kiezen
                 random_val = random.randint(0, len(neighbours) - 1)
                 next_city = neighbours[random_val]
-                traject.append(next_city.name)
                 next_time = start_city.get_time(next_city)
                 
                 # begint nieuw traject als het tijdslimiet overschreden is.
@@ -50,6 +49,7 @@ class Random(object):
                     under_timelimit = False
                     break
 
+                traject.append(next_city.name)
                 time += next_time
                 
                 # nieuwe stad wordt toegevoegd aan used_connections
@@ -62,7 +62,8 @@ class Random(object):
                 
                 start_city = next_city
 
-            self.trajects.append(traject)
+            final_traject = "[%s]" % (', '.join(traject))
+            self.trajects.append(final_traject)
             self.total_time += time
             
         return self.output()
@@ -94,20 +95,14 @@ class Random(object):
     def output(self):
         score = self.score()
         output = [["train", "stations"]]
+
         for i, traject in enumerate(self.trajects):
             string = "train_"+str(i)
             output.append([string, traject])
         output.append(["score", score])
-            
+
         print(output)
-        with open('testoutput.csv', 'w', newline='') as file:
+        with open('results/output.csv', 'w', newline='') as file:
             writer = csv.writer(file, delimiter=',')
             writer.writerows(output)
         pass
-        
-
-if __name__ == "__main__":
-    # Run the connections class with the connections file
-    connections = Connections("data/ConnectiesHolland.csv")
-    test = Random(connections).find_traject()
-    print(test)

@@ -1,5 +1,5 @@
-from connections import City
-from connections import Connections
+from .connections import City
+from .connections import Connections
 import random
 import csv
 
@@ -8,7 +8,7 @@ import csv
 # idee is dat het random algoritme steeds random een buurstad kiest.
 # het algoritme stopt wanneer het alle verbindingen heeft gehad.
 
-class Random(object):
+class Hillclimb(object):
     def __init__(self, connections_object):
         self.cities = connections_object.cities
         self.ids = connections_object.city_ids
@@ -28,10 +28,11 @@ class Random(object):
             time = 0
             # wordt gebruikt om te checken of het traject niet over tijdslimiet gaat.
             under_timelimit = True
+
             traject = [start_city.name]
 
-
             while under_timelimit:
+
                 # stopt het find_traject algoritme wanneer alle verbindingen al zijn gemaakt
                 if len(self.used_connections) == len(self.all_connections):
                     return self.output()
@@ -42,7 +43,6 @@ class Random(object):
                 
                 # kies een buur aan de hand van welke verbinding het kortst is
                 next_city = self.get_city(start_city, neighbours)
-                traject.append(next_city.name)
                 next_time = start_city.get_time(next_city)
 
                 # begint nieuw traject als het tijdslimiet overschreden is.
@@ -50,6 +50,7 @@ class Random(object):
                     under_timelimit = False
                     break
 
+                traject.append(next_city.name)
                 time += next_time
 
                 # nieuwe stad wordt toegevoegd aan used_connections
@@ -60,7 +61,9 @@ class Random(object):
 
                 start_city = next_city
 
-            self.trajects.append(traject)
+            # Remove the quotes from the traject list
+            final_traject = "[%s]" % (', '.join(traject))
+            self.trajects.append(final_traject)
             self.total_time += time
 
         return self.output()
@@ -73,17 +76,10 @@ class Random(object):
         next_city = neighbours[random_val]
         time = city.get_time(next_city)
 
-        print("huidige city:", city.name)
-        print("huidige next city:", next_city.name)
-        print("huidige time:", time)
-
         # Doe beste van alle mogelijke verbindingen
         for neighbour in neighbours:
-            print("Neighbour:", neighbour.name)
             check_city = neighbour.name
             check_time = city.get_time(neighbour)
-            print("Neighbour time:", check_time)
-
 
             # Check of die verbinding al is gemaakt
             city_pair = [city.name, check_city]
@@ -95,12 +91,6 @@ class Random(object):
                     next_city = neighbour
                     time = check_time
 
-            print("New time:", time)
-
-        print("huidige city:", city.name)
-        print("final next city:", next_city.name)
-        print("final time:", time)
-        print("\n")
         return next_city
 
     # checkt of de buren niet al eerder zijn gebruikt.
@@ -129,21 +119,17 @@ class Random(object):
     def output(self):
         score = self.score()
         output = [["train", "stations"]]
+
         for i, traject in enumerate(self.trajects):
             string = "train_" + str(i)
             output.append([string, traject])
             print(["train_{}".format(i), traject])
+
         output.append(["score", score])
         print("score", score)
 
-        with open('output_julia.csv', 'w', newline='') as file:
+        with open('results/output.csv', 'w', newline='') as file:
             writer = csv.writer(file, delimiter=',')
             writer.writerows(output)
         pass
-
-
-if __name__ == "__main__":
-    # Run the connections class with the connections file
-    connections = Connections("data/ConnectiesHolland.csv")
-    test = Random(connections).find_traject()
 
