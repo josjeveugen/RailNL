@@ -23,7 +23,7 @@ class City(object):
 
         for value in self.neighbours:
             if value == city:  # check of dit zo kan?
-                return int(self.times[i])
+                return float(self.times[i])
             i += 1
             
     def get_neighbours(self):

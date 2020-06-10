@@ -1,6 +1,6 @@
 from codes import connections
-from codes import random_algoritme
-from codes import test_hillclimber
+from codes import random_algoritme as r
+from codes import test_hillclimber as hc
 
 if __name__ == "__main__":
     # Run the connections class with the connections file
@@ -9,7 +9,7 @@ if __name__ == "__main__":
     # Verwijder comment van het algoritme wat je wil runnen
 
     # --------------------------- Random reassignment --------------------------
-    # random = random_algoritme.Random(load_connections).find_traject()
+    # random = r.Random(load_connections).find_traject()
 
     # --------------------------- Run Hill climber algoritme --------------------------
-    hill_climber = test_hillclimber.Hillclimb(load_connections).find_traject()
+    hill_climber = hc.Hillclimb(load_connections).find_traject()
