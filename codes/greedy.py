@@ -88,6 +88,7 @@ class Greedy(object):
     
     def choose_shortest_time(self, city, neighbours):
         prev_neigh = neighbours[0]
+        best_neigh = prev_neigh
 
         for neighbour in neighbours:
             if city.get_time(neighbour) < city.get_time(prev_neigh):

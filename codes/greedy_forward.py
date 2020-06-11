@@ -44,8 +44,11 @@ class Greedy_forward(object):
                 next_city = neighbours[greedy_val]
                 
                 # voorkomt dat greedy onnodig dezelfde verbinding kiest
-                if len(traject) > 1 and next_city.name == traject[-2]:
+                if self.dubble_connection(traject, next_city):
+                    # bij greedy kun je meteen breaken, omdat het anders steeds
+                    # dezelfde keuze maakt.
                     break
+                
                 
                 traject.append(next_city.name)
                 next_time = start_city.get_time(next_city)
@@ -74,7 +77,11 @@ class Greedy_forward(object):
             self.total_time += time
             
         return self.output()
-        
+    
+    def dubble_connection(self, traject, city_name):
+        if len(traject) > 1 and city_name == traject[-2]:
+            return True
+        return False
     
     # checkt of de buren niet al eerder zijn gebruikt.
     def check_traject(self, city, neighbours):
@@ -93,6 +100,7 @@ class Greedy_forward(object):
     
     def choose_shortest_time(self, city, neighbours):
         prev_neigh = neighbours[0]
+        best_neigh = prev_neigh
 
         for neighbour in neighbours:
             if city.get_time(neighbour) < city.get_time(prev_neigh):
@@ -101,23 +109,42 @@ class Greedy_forward(object):
 
         return best_neigh
     
-    def choose_shortest_time_forward(self, city, neighbours, steps):
+    def choose_shortest_time_forward(self, city, steps):
         # random een pad uitkiezen, kijken welk pad het minst langst duurde
         # maar kijk ook wel pad het langste is.
+        # of kijken naar het pad dat veel buren heeft?
         trials = steps
-        prev_time = self.max_time
+        best_time = self.max_time
+        best_traject = []
+        best_neigh = None
+
         for trial in range(trials):
             first_city = self.choose_random_neighbour(city)
+            traject = [first_city]
             time = 0
             start_city = first_city
+
             for step in range(1, steps):
                 next_city = self.choose_random_neighbour(city)
-                time += start_city.get_time(next_city)
+
+                if self.dubble_connection(traject, next_city.name):
+                    traject = traject[:-2]
+                else:
+                    time += start_city.get_time(next_city)
+                    traject.append(next_city.name)
+
                 start_city = next_city
             
-            if time < prev_time:
-                best_neigh = first_city
-                
+                if len(traject) >= len(best_traject):
+                    best_traject = traject
+                    best_time = time
+                    best_neigh = first_city
+                    
+                elif len(traject) == len(best_traject) and time < best_time:
+                    best_traject = traject
+                    best_time = time
+                    best_neigh = first_city
+     
         return best_neigh
             
             
