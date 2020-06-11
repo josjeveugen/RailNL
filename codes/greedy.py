@@ -1,8 +1,8 @@
-from connections import Connections
+#from connections import Connections
 import random
 import csv
 
-class Greedy_forward(object):
+class Greedy(object):
     def __init__(self, connections_object):
         self.cities = connections_object.cities
         self.ids = connections_object.city_ids
@@ -18,14 +18,13 @@ class Greedy_forward(object):
     # dit is het random algoritme dat de trajecten probeert te vinden.
     def find_traject(self):
         for i in range(self.max_trajects):
+            print("new traject")
             start = random.randint(0, len(self.cities) - 1)
             start_city = self.cities[start]
             time = 0
             # wordt gebruikt om te checken of het traject niet over tijdslimiet gaat.
             under_timelimit = True
             traject = [start_city.name]
-            
-            print("start:", start_city.name, time, traject)
             
             while under_timelimit:
                 # stopt het find_traject algoritme wanneer alle verbindingen al zijn gemaakt
@@ -40,14 +39,19 @@ class Greedy_forward(object):
                 
                 #random_val = random.randint(0, len(neighbours) - 1)
                 next_city = neighbours[greedy_val]
+                
+                if len(traject) > 1 and next_city == traject[-2]:
+                    print(traject[-2].name)
+                    print("break")
+                    break
+                
                 traject.append(next_city.name)
                 next_time = start_city.get_time(next_city)
-                
-                print("greedy:", start_city.name, next_city.name, next_time)
                 
                 # begint nieuw traject als het tijdslimiet overschreden is.
                 if time + next_time >= self.max_time:
                     under_timelimit = False
+                    print("break")
                     break
 
                 time += next_time
@@ -57,12 +61,15 @@ class Greedy_forward(object):
                 city_pair.sort()
                 if city_pair not in self.used_connections:
                     self.used_connections.append(city_pair)
+                # dit nog verwijderen
                 else:
                     print("double")
                 
                 start_city = next_city
-
-            self.trajects.append(traject)
+            print("final traject")
+            
+            final_traject = "[%s]" % (', '.join(traject))
+            self.trajects.append(final_traject)
             self.total_time += time
             
         return self.output()
@@ -108,20 +115,16 @@ class Greedy_forward(object):
     def output(self):
         score = self.score()
         output = [["train", "stations"]]
+
         for i, traject in enumerate(self.trajects):
             string = "train_" + str(i)
             output.append([string, traject])
             print(["train_{}".format(i), traject])
+
         output.append(["score", score])
         print("score", score)
 
-        with open('output.csv', 'w', newline='') as file:
+        with open('results/goutput.csv', 'w', newline='') as file:
             writer = csv.writer(file, delimiter=',')
             writer.writerows(output)
         pass
-        
-
-if __name__ == "__main__":
-    # Run the connections class with the connections file
-    connections = Connections("data/ConnectiesHolland.csv")
-    Greedy_forward(connections).find_traject()
