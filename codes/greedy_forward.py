@@ -16,8 +16,11 @@ class Greedy_forward(object):
         print(self.all_connections)
      
     # dit is het random algoritme dat de trajecten probeert te vinden.
-    def find_traject(self, steps_forward):
+    def find_traject(self, steps):
+        #starter_cities = self.less_neighbours()
+        
         for i in range(self.max_trajects):
+            print("new traject")
             start = random.randint(0, len(self.cities) - 1)
             start_city = self.cities[start]
             time = 0
@@ -25,25 +28,27 @@ class Greedy_forward(object):
             under_timelimit = True
             traject = [start_city.name]
             
-            print("start:", start_city.name, time, traject)
-            
             while under_timelimit:
                 # stopt het find_traject algoritme wanneer alle verbindingen al zijn gemaakt
                 if len(self.used_connections) == len(self.all_connections):
                     return self.output()
+    
                 
                 # checkt welke neighbours er zijn en of ze niet dubbel gebruikt zullen worden.
                 neighbours = start_city.get_neighbours()
                 neighbours = self.check_traject(start_city, neighbours)
-                # random buur kiezen
-                greedy_val = self.choose_shortest_time(start_city, neighbours)
+
+                greedy_val = self.choose_shortest_time_forward(steps)
+                #self.choose_shortest_time(start_city, neighbours)
                 
-                #random_val = random.randint(0, len(neighbours) - 1)
                 next_city = neighbours[greedy_val]
+                
+                # voorkomt dat greedy onnodig dezelfde verbinding kiest
+                if len(traject) > 1 and next_city.name == traject[-2]:
+                    break
+                
                 traject.append(next_city.name)
                 next_time = start_city.get_time(next_city)
-                
-                print("greedy:", start_city.name, next_city.name, next_time)
                 
                 # begint nieuw traject als het tijdslimiet overschreden is.
                 if time + next_time >= self.max_time:
@@ -57,12 +62,15 @@ class Greedy_forward(object):
                 city_pair.sort()
                 if city_pair not in self.used_connections:
                     self.used_connections.append(city_pair)
+                # dit nog verwijderen
                 else:
                     print("double")
                 
                 start_city = next_city
-
-            self.trajects.append(traject)
+            print("final traject")
+            
+            final_traject = "[%s]" % (', '.join(traject))
+            self.trajects.append(final_traject)
             self.total_time += time
             
         return self.output()
@@ -84,18 +92,39 @@ class Greedy_forward(object):
         return new_neigh
     
     def choose_shortest_time(self, city, neighbours):
-        shortest_time_id = 0
-        identity = 0
         prev_neigh = neighbours[0]
 
         for neighbour in neighbours:
             if city.get_time(neighbour) < city.get_time(prev_neigh):
                 print("new time:", city.name, neighbour.name, city.get_time(neighbour))
-                shortest_time_id = identity
-            identity += 1
+                best_neigh = neighbour
 
-        return shortest_time_id
-        
+        return best_neigh
+    
+    def choose_shortest_time_forward(self, city, neighbours, steps):
+        # random een pad uitkiezen, kijken welk pad het minst langst duurde
+        # maar kijk ook wel pad het langste is.
+        trials = steps
+        prev_time = self.max_time
+        for trial in range(trials):
+            first_city = self.choose_random_neighbour(city)
+            time = 0
+            start_city = first_city
+            for step in range(1, steps):
+                next_city = self.choose_random_neighbour(city)
+                time += start_city.get_time(next_city)
+                start_city = next_city
+            
+            if time < prev_time:
+                best_neigh = first_city
+                
+        return best_neigh
+            
+            
+    def choose_random_neighbour(self, city):
+        neighbours = city.get_neighbours()
+        neighbours = self.check_traject(city, neighbours)
+        return neighbours[random.randint(0, len(neighbours) - 1)]
     
     # berekent de kwaliteit van de lijnvoering
     def score(self):
@@ -113,12 +142,11 @@ class Greedy_forward(object):
             string = "train_" + str(i)
             output.append([string, traject])
             print(["train_{}".format(i), traject])
-        output.append(["score", score])
-        print(output)
-        print("score", score)
-        
 
-        with open('output.csv', 'w', newline='') as file:
+        output.append(["score", score])
+        print("score", score)
+
+        with open('results/goutput.csv', 'w', newline='') as file:
             writer = csv.writer(file, delimiter=',')
             writer.writerows(output)
         pass

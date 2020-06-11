@@ -35,14 +35,10 @@ class Greedy(object):
                 neighbours = start_city.get_neighbours()
                 neighbours = self.check_traject(start_city, neighbours)
                 # random buur kiezen
-                greedy_val = self.choose_shortest_time(start_city, neighbours)
+                next_city = self.choose_shortest_time(start_city, neighbours)
                 
-                #random_val = random.randint(0, len(neighbours) - 1)
-                next_city = neighbours[greedy_val]
-                
-                if len(traject) > 1 and next_city == traject[-2]:
-                    print(traject[-2].name)
-                    print("break")
+                # voorkomt dat greedy onnodig dezelfde verbinding kiest
+                if len(traject) > 1 and next_city.name == traject[-2]:
                     break
                 
                 traject.append(next_city.name)
@@ -91,17 +87,14 @@ class Greedy(object):
         return new_neigh
     
     def choose_shortest_time(self, city, neighbours):
-        shortest_time_id = 0
-        identity = 0
         prev_neigh = neighbours[0]
 
         for neighbour in neighbours:
             if city.get_time(neighbour) < city.get_time(prev_neigh):
                 print("new time:", city.name, neighbour.name, city.get_time(neighbour))
-                shortest_time_id = identity
-            identity += 1
+                best_neigh = neighbour
 
-        return shortest_time_id
+        return best_neigh
         
     
     # berekent de kwaliteit van de lijnvoering
