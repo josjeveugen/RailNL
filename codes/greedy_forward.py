@@ -113,6 +113,8 @@ class Greedy_forward(object):
         # random een pad uitkiezen, kijken welk pad het minst langst duurde
         # maar kijk ook wel pad het langste is.
         # of kijken naar het pad dat veel buren heeft?
+        print("chosing neighbour...")
+        
         trials = steps
         best_time = self.max_time
         best_traject = []
