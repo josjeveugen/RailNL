@@ -25,6 +25,7 @@ class City(object):
             if value == city:  # check of dit zo kan?
                 return float(self.times[i])
             i += 1
+        return None 
             
     def get_neighbours(self):
         return self.neighbours

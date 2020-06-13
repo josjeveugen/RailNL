@@ -1,6 +1,7 @@
 from connections import Connections
 import random
 import csv
+import matplotlib.pyplot as plt
 
 class Greedy_forward(object):
     def __init__(self, connections_object):
@@ -31,17 +32,15 @@ class Greedy_forward(object):
             while under_timelimit:
                 # stopt het find_traject algoritme wanneer alle verbindingen al zijn gemaakt
                 if len(self.used_connections) == len(self.all_connections):
-                    return self.output()
+                    return self.score()
+                    #return self.output()
     
                 
                 # checkt welke neighbours er zijn en of ze niet dubbel gebruikt zullen worden.
                 neighbours = start_city.get_neighbours()
                 neighbours = self.check_traject(start_city, neighbours)
-
-                greedy_val = self.choose_shortest_time_forward(steps)
-                #self.choose_shortest_time(start_city, neighbours)
                 
-                next_city = neighbours[greedy_val]
+                next_city = self.choose_shortest_time_forward(start_city, steps)
                 
                 # voorkomt dat greedy onnodig dezelfde verbinding kiest
                 if self.dubble_connection(traject, next_city):
@@ -76,7 +75,8 @@ class Greedy_forward(object):
             self.trajects.append(final_traject)
             self.total_time += time
             
-        return self.output()
+        #return self.output()
+        return self.score()
     
     def dubble_connection(self, traject, city_name):
         if len(traject) > 1 and city_name == traject[-2]:
@@ -119,18 +119,26 @@ class Greedy_forward(object):
         best_time = self.max_time
         best_traject = []
         best_neigh = None
+        
+        print(best_time, best_traject, best_neigh)
 
         for trial in range(trials):
             first_city = self.choose_random_neighbour(city)
             traject = [first_city]
             time = 0
             start_city = first_city
+            print("start:", start_city.name)
 
             for step in range(1, steps):
-                next_city = self.choose_random_neighbour(city)
+                next_city = self.choose_random_neighbour(start_city)
+                print("next city:", next_city.name)
 
                 if self.dubble_connection(traject, next_city.name):
+                    print("dubble:")
+                    print(traject)
                     traject = traject[:-2]
+                    print(traject)
+                    
                 else:
                     time += start_city.get_time(next_city)
                     traject.append(next_city.name)
@@ -146,6 +154,7 @@ class Greedy_forward(object):
                     best_traject = traject
                     best_time = time
                     best_neigh = first_city
+            print("best", best_traject, best_time, best_neigh)
      
         return best_neigh
             
@@ -184,4 +193,10 @@ class Greedy_forward(object):
 if __name__ == "__main__":
     # Run the connections class with the connections file
     connections = Connections("data/ConnectiesHolland.csv")
-    Greedy_forward(connections).find_traject(2)
+    scores = []
+    for i in range(100):
+        scores.append(Greedy_forward(connections).find_traject(10))
+    print(scores)
+    print(max(scores), min(scores))
+    plt.plot(scores)
+    plt.show()
