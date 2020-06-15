@@ -28,7 +28,7 @@ class Greedy(object):
             
             while under_timelimit:
                 # stopt het find_traject algoritme wanneer alle verbindingen al zijn gemaakt
-                if len(self.used_connections) == len(self.all_connections):
+                if len(self.used_connections) > len(self.all_connections):
                     return self.output()
                 
                 # checkt welke neighbours er zijn en of ze niet dubbel gebruikt zullen worden.
