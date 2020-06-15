@@ -38,7 +38,6 @@ def calculate_average(max_loop = 100):
     sum_connections = 0
     sum_trajects = 0
     total_time = 0
-    max_loop = 100
     for i in range(max_loop):
         score, con, trajects, time = hc.Hillclimb(load_connections).score()
         sum += score
@@ -47,8 +46,6 @@ def calculate_average(max_loop = 100):
         total_time += time
         scores.append(score)
 
-    # probleem is dat je terminal zal blijven runnen vanwege plt.show()
-    # dus je moet je terminal beënidgen wanneer je iets nieuws wilt.
     average = sum / max_loop
     average_connections = sum_connections / max_loop
     average_trajects = sum_trajects / max_loop
