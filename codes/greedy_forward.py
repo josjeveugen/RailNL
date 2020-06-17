@@ -1,23 +1,24 @@
-from connections import Connections
+
 import random
 import csv
 import matplotlib.pyplot as plt
 
-class Greedy_forward(object):
-    def __init__(self, connections_object):
-        self.cities = connections_object.cities
-        self.ids = connections_object.city_ids
-        self.all_connections = connections_object.connections
+class Algorithm(object):
+    def __init__(self, args):
+        self.cities = args[0].cities
+        self.ids = args[0].city_ids
+        self.all_connections = args[0].connections
         self.used_connections = []
         self.trajects = []
-        self.max_trajects = 7
-        self.max_time = 120
+        self.max_trajects = args[2]
+        self.max_time = args[1]
         self.total_time = 0
+        self.steps = args[3]
         
         print(self.all_connections)
      
     # dit is het random algoritme dat de trajecten probeert te vinden.
-    def find_traject(self, steps):
+    def find_traject(self):
         #starter_cities = self.less_neighbours()
         
         for i in range(self.max_trajects):
@@ -32,7 +33,7 @@ class Greedy_forward(object):
             while under_timelimit:
                 # stopt het find_traject algoritme wanneer alle verbindingen al zijn gemaakt
                 if len(self.used_connections) > len(self.all_connections):
-                    return self.score()
+                    return self.score(), self.trajects
                     #return self.output()
     
                 
@@ -40,7 +41,7 @@ class Greedy_forward(object):
                 neighbours = start_city.get_neighbours()
                 neighbours = self.check_traject(start_city, neighbours)
                 
-                next_city = self.choose_shortest_time_forward(start_city, steps)
+                next_city = self.choose_shortest_time_forward(start_city)
                 
                 # voorkomt dat greedy onnodig dezelfde verbinding kiest
                 if self.dubble_connection(traject, next_city):
@@ -64,19 +65,15 @@ class Greedy_forward(object):
                 city_pair.sort()
                 if city_pair not in self.used_connections:
                     self.used_connections.append(city_pair)
-                # dit nog verwijderen
-                else:
-                    print("double")
                 
                 start_city = next_city
-            print("final traject")
             
             final_traject = "[%s]" % (', '.join(traject))
             self.trajects.append(final_traject)
             self.total_time += time
             
         #return self.output()
-        return self.score()
+        return self.score(), self.trajects
     
     def dubble_connection(self, traject, city_name):
         if len(traject) > 1 and city_name == traject[-2]:
@@ -109,13 +106,13 @@ class Greedy_forward(object):
 
         return best_neigh
     
-    def choose_shortest_time_forward(self, city, steps):
+    def choose_shortest_time_forward(self, city):
         # random een pad uitkiezen, kijken welk pad het minst langst duurde
         # maar kijk ook wel pad het langste is.
         # of kijken naar het pad dat veel buren heeft?
         print("chosing neighbour...")
         
-        trials = steps
+        trials = self.steps
         best_time = self.max_time
         best_traject = []
         best_neigh = None
@@ -129,7 +126,7 @@ class Greedy_forward(object):
             start_city = first_city
             print("start:", start_city.name)
 
-            for step in range(1, steps):
+            for step in range(1, self.steps):
                 next_city = self.choose_random_neighbour(start_city)
                 print("next city:", next_city.name)
 

@@ -6,18 +6,16 @@ import csv
 # idee is dat het random algoritme steeds random een buurstad kiest.
 # het algoritme stopt wanneer het alle verbindingen heeft gehad.
 
-class Random(object):
-    def __init__(self, connections_object):
-        self.cities = connections_object.cities
-        self.ids = connections_object.city_ids
-        self.all_connections = connections_object.connections
+class Algorithm(object):
+    def __init__(self, args):
+        self.cities = args[0].cities
+        self.ids = args[0].city_ids
+        self.all_connections = args[0].connections
         self.used_connections = []
         self.trajects = []
-        self.max_trajects = 7
-        self.max_time = 120
+        self.max_trajects = args[2]
+        self.max_time = args[1]
         self.total_time = 0
-        
-        print(self.all_connections)
      
     # dit is het random algoritme dat de trajecten probeert te vinden.
     def find_traject(self):
@@ -29,12 +27,10 @@ class Random(object):
             under_timelimit = True
             traject = [start_city.name]
             
-            print("start:", start_city.name, time, traject)
-            
             while under_timelimit:
                 # stopt het find_traject algoritme wanneer alle verbindingen al zijn gemaakt
                 if len(self.used_connections) > len(self.all_connections):
-                    return self.output()
+                    return self.score(), self.trajects
                 
                 # checkt welke neighbours er zijn en of ze niet dubbel gebruikt zullen worden.
                 neighbours = start_city.get_neighbours()
@@ -57,8 +53,6 @@ class Random(object):
                 city_pair.sort()
                 if city_pair not in self.used_connections:
                     self.used_connections.append(city_pair)
-                else:
-                    print("double")
                 
                 start_city = next_city
 
@@ -66,7 +60,7 @@ class Random(object):
             self.trajects.append(final_traject)
             self.total_time += time
             
-        return self.output()
+        return self.score(), self.trajects
         
     
     # checkt of de buren niet al eerder zijn gebruikt.
@@ -80,18 +74,17 @@ class Random(object):
         
         # geeft de alle buren mee indien alle buren als eens zijn gebruikt.
         if new_neigh == []:
-            print("all neighbours are already used")
+
             return neighbours
         return new_neigh
     
     # berekent de kwaliteit van de lijnvoering
     def score(self):
         p = len(self.used_connections) / len(self.all_connections)
-        print(len(self.used_connections), len(self.all_connections), self.used_connections)
-        print(p, len(self.trajects), self.total_time)
         return p * 10000 - (len(self.trajects) * 100 + self.total_time)
     
     # geeft de output voor in het csv bestand.
+    """
     def output(self):
         score = self.score()
         output = [["train", "stations"]]
@@ -106,3 +99,4 @@ class Random(object):
             writer = csv.writer(file, delimiter=',')
             writer.writerows(output)
         pass
+    """
