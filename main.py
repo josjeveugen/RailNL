@@ -24,12 +24,12 @@ def calculate_mean_score(x = 100):
     for i in range(x):
         #choose algorithm you want to run
         scores = g.Greedy(load_connections).find_traject()
-        print(scores)
-        print(max(scores), min(scores))
-        plt.plot(scores)
-        plt.show()
-        # probleem is dat je terminal zal blijven runnen vanwege plt.show()
-        # dus je moet je terminal beënidgen wanneer je iets nieuws wilt.
+    print(scores)
+    print(max(scores), min(scores))
+    plt.plot(scores)
+    plt.show()
+    # probleem is dat je terminal zal blijven runnen vanwege plt.show()
+    # dus je moet je terminal beënidgen wanneer je iets nieuws wilt.
 
 def calculate_average(max_loop = 100):
     scores = []
