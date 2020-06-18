@@ -185,15 +185,3 @@ class Algorithm(object):
             writer = csv.writer(file, delimiter=',')
             writer.writerows(output)
         pass
-        
-
-if __name__ == "__main__":
-    # Run the connections class with the connections file
-    connections = Connections("data/ConnectiesHolland.csv")
-    scores = []
-    for i in range(100):
-        scores.append(Greedy_forward(connections).find_traject(10))
-    print(scores)
-    print(max(scores), min(scores))
-    plt.plot(scores)
-    plt.show()

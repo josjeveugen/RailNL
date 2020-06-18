@@ -30,7 +30,7 @@ class Algorithm(object):
             while under_timelimit:
                 # stopt het find_traject algoritme wanneer alle verbindingen al zijn gemaakt
                 if len(self.used_connections) > len(self.all_connections):
-                    return self.score(), self.trajects
+                    return self.score(), self.trajects, self.used_connections
                 
                 # checkt welke neighbours er zijn en of ze niet dubbel gebruikt zullen worden.
                 neighbours = start_city.get_neighbours()
@@ -60,7 +60,7 @@ class Algorithm(object):
             self.trajects.append(final_traject)
             self.total_time += time
             
-        return self.score(), self.trajects
+        return self.score(), self.trajects, self.used_connections
         
     
     # checkt of de buren niet al eerder zijn gebruikt.

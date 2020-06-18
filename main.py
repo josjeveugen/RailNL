@@ -2,6 +2,7 @@ from codes import connections
 from codes import random_algoritme as r
 from codes import greedy as g
 from codes import greedy_lookahead as gf
+from codes import hillclimber as hc
 import matplotlib.pyplot as plt
 import csv
 
@@ -11,10 +12,11 @@ import csv
 # - even kijken bij random_algorithm wat je moet veranderen in __init__
 #   daar zie je args, dit heet nu zo, zodat dezelfde functie ook met
 #   greedy lookahead werkt.
-# - de output moet worden: self.score(), self.trajects (de output wordt nu
+# - de output moet worden: self.score(), self.trajects, self.used_connections (de output wordt nu
 #   in deze file gemaakt, scheelt wat extra loops)
 #   in de compare output functie zie je waarom, daar worden de scores vgl,
 #   en wordt uiteindelijk de beste wordt gegenereerd.
+#   belangrijk is self.used_connections terug te geven voor de hillclimber!
 # That's it! Ga er vooral mee spelen en probeer fouten/verbeteringen te vinden :-)
 
 
@@ -68,6 +70,14 @@ def prompt_algorithm():
     while answer != 1 and answer != 2 and answer != 3:
         print("Je moet een getal van 1, 2 of 3 invullen...")
         answer = int(input())
+        
+    print("Wil je hillclimber toepassen op het gekozen algoritme?")
+    print("  0: Nee\n  1: Ja")
+    
+    hill_flag = int(input())
+    while hill_flag != 0 and hill_flag != 1:
+        print("Je moet een getal van 0 of 1 invullen...")
+        hill_flag = int(input())
     
     print("Top! We runnen het algoritme een paar keer zodat je hoogstwaarschijnlijk een goede uitkomst krijgt.\n")
     print("Dit kan even duren, een moment geduld alstublieft...")
@@ -89,6 +99,11 @@ def prompt_algorithm():
             steps = int(input())
         
         best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects, steps])
+    
+    if hill_flag:
+        # Run het hillclimber algoritme
+        best_answer = hc.Algorithm(load_connections, best_answer[1])
+        return 0
     
     generate_output(best_answer[0], best_answer[1])
         
