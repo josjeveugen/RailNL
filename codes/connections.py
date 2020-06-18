@@ -49,7 +49,7 @@ class Connections(object):
                 city_pair = [city1, city2]
                 city_pair.sort()
                 time = row["distance"]
-                city_pair.append(time)
+                city_pair.append(float(time))
 
                 self.connections.append(city_pair)
 
