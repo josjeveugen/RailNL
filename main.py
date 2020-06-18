@@ -1,7 +1,7 @@
 from codes import connections
 from codes import random_algoritme as r
 from codes import greedy as g
-from codes import greedy_forward as gf
+from codes import greedy_lookahead as gf
 import matplotlib.pyplot as plt
 import csv
 
