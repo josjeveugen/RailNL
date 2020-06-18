@@ -33,7 +33,7 @@ class Algorithm(object):
             while under_timelimit:
                 # stopt het find_traject algoritme wanneer alle verbindingen al zijn gemaakt
                 if len(self.used_connections) > len(self.all_connections):
-                    return self.score(), self.trajects
+                    return self.score(), self.trajects, self.used_connections, self.total_time
                     #return self.output()
     
                 
@@ -72,7 +72,7 @@ class Algorithm(object):
             self.total_time += time
             
         #return self.output()
-        return self.score(), self.trajects
+        return self.score(), self.trajects, self.used_connections, self.total_time
     
     def dubble_connection(self, traject, city_name):
         if len(traject) > 1 and city_name == traject[-2]:

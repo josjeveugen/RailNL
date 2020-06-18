@@ -12,11 +12,12 @@ import csv
 # - even kijken bij random_algorithm wat je moet veranderen in __init__
 #   daar zie je args, dit heet nu zo, zodat dezelfde functie ook met
 #   greedy lookahead werkt.
-# - de output moet worden: self.score(), self.trajects, self.used_connections (de output wordt nu
-#   in deze file gemaakt, scheelt wat extra loops)
+# - de output van een algoritme zijn 4 dingen: self.score(), self.trajects, self.used_connections, 
+#   self.total_time (de output wordt nu in deze file gemaakt, scheelt wat extra loops)
 #   in de compare output functie zie je waarom, daar worden de scores vgl,
 #   en wordt uiteindelijk de beste wordt gegenereerd.
 #   belangrijk is self.used_connections terug te geven voor de hillclimber!
+#   hetzelfde geldt ook voor self.total_time!
 # - de final_traject om hem ready te maken voor de output moet er uit!
 #   dit wordt gedaan in generate_output functie. Dit is nodig omdat hillclimber
 #   anders niet werkt.
@@ -110,7 +111,7 @@ def prompt_algorithm():
     
     if hill_flag:
         # Run het hillclimber algoritme
-        best_answer = hc.Algorithm(load_connections, best_answer[1], best_answer[2])
+        best_answer = hc.Algorithm(load_connections, best_answer[1], best_answer[2], best_answer[3])
         return 0
     
     generate_output(best_answer[0], best_answer[1])
