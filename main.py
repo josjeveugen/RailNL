@@ -2,6 +2,7 @@ from codes import connections
 from codes import random_algoritme as r
 from codes import dijkstra_algoritme as g
 from codes import greedy_forward as gf
+from codes import hillclimber as hc
 import matplotlib.pyplot as plt
 import csv
 
@@ -11,17 +12,26 @@ import csv
 # - even kijken bij random_algorithm wat je moet veranderen in __init__
 #   daar zie je args, dit heet nu zo, zodat dezelfde functie ook met
 #   greedy lookahead werkt.
-# - de output moet worden: self.score(), self.trajects (de output wordt nu
-#   in deze file gemaakt, scheelt wat extra loops)
+# - de output van een algoritme zijn 4 dingen: self.score(), self.trajects, self.used_connections, 
+#   self.total_time (de output wordt nu in deze file gemaakt, scheelt wat extra loops)
 #   in de compare output functie zie je waarom, daar worden de scores vgl,
 #   en wordt uiteindelijk de beste wordt gegenereerd.
+#   belangrijk is self.used_connections terug te geven voor de hillclimber!
+#   hetzelfde geldt ook voor self.total_time!
+# - de final_traject om hem ready te maken voor de output moet er uit!
+#   dit wordt gedaan in generate_output functie. Dit is nodig omdat hillclimber
+#   anders niet werkt.
 # That's it! Ga er vooral mee spelen en probeer fouten/verbeteringen te vinden :-)
 
 # Puts the best output in a csv file.
 def generate_output(score, trajects):
+    output_trajects = []
+    for traject in trajects:
+        final_traject = "[%s]" % (', '.join(traject))
+        output_trajects.append(final_traject)
     output = [["train", "stations"]]
 
-    for i, traject in enumerate(trajects):
+    for i, traject in enumerate(output_trajects):
         string = "train_"+str(i)
         output.append([string, traject])
     output.append(["score", score])
@@ -67,11 +77,18 @@ def prompt_algorithm():
     print("Met welk algoritme wil je dit oplossen?")
     print("  1: Random\n  2: Greedy\n  3: Greedy Lookahead")
     
-
     answer = int(input())
     while answer != 1 and answer != 2 and answer != 3:
         print("Je moet een getal van 1, 2 of 3 invullen...")
         answer = int(input())
+    
+    print("Wil je hillclimber toepassen op het gekozen algoritme?")
+    print("  0: Nee\n  1: Ja")
+
+    hill_flag = int(input())
+    while hill_flag != 0 and hill_flag != 1:
+        print("Je moet een getal van 0 of 1 invullen...")
+        hill_flag = int(input())
     
     print("Top! We runnen het algoritme een paar keer zodat je hoogstwaarschijnlijk een goede uitkomst krijgt.\n")
     print("Dit kan even duren, een moment geduld alstublieft...")
@@ -96,6 +113,11 @@ def prompt_algorithm():
             steps = int(input())
         
         best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects, steps])
+    
+    if hill_flag:
+         # Run het hillclimber algoritme
+         best_answer = hc.Algorithm(load_connections, best_answer[1], best_answer[2], best_answer[3])
+         return 0
     
     generate_output(best_answer[0], best_answer[1])
         
