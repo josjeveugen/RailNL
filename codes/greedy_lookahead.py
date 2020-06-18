@@ -68,8 +68,7 @@ class Algorithm(object):
                 
                 start_city = next_city
             
-            final_traject = "[%s]" % (', '.join(traject))
-            self.trajects.append(final_traject)
+            self.trajects.append(traject)
             self.total_time += time
             
         #return self.output()
