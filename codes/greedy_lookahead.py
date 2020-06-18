@@ -32,7 +32,7 @@ class Algorithm(object):
             
             while under_timelimit:
                 # stopt het find_traject algoritme wanneer alle verbindingen al zijn gemaakt
-                if len(self.used_connections) > len(self.all_connections):
+                if len(self.used_connections) == len(self.all_connections):
                     return self.score(), self.trajects, self.used_connections, self.total_time
                     #return self.output()
     

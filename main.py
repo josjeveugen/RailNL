@@ -111,8 +111,7 @@ def prompt_algorithm():
     
     if hill_flag:
         # Run het hillclimber algoritme
-        best_answer = hc.Algorithm(load_connections, best_answer[1], best_answer[2], best_answer[3])
-        return 0
+        best_answer = hc.Algorithm(load_connections, best_answer[0], best_answer[1], best_answer[2], best_answer[3], max_time).find_solution()
     
     generate_output(best_answer[0], best_answer[1])
         
