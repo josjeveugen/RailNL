@@ -27,14 +27,17 @@ class Algorithm(object):
                 for connection in self.all_connections:
                     if current_city in connection:
                         possible_connections.append(connection)
+
                 # Make sure going back to the station you came from is no option
                 for connection in possible_connections:
                     if last_city in connection:
                         possible_connections.remove(connection)
                 if not possible_connections:
                     break
+
                 possible_connections.sort(key=lambda x: x[2])
                 short_connection = possible_connections[0]
+
                 for i in range(len(possible_connections)):
                     if possible_connections[i] not in self.used_connections:
                         short_connection = possible_connections[i]
@@ -43,7 +46,7 @@ class Algorithm(object):
                         # elif all(con in possible_connections for con in self.used_connections):
                         short_connection = possible_connections[0]
 
-                if self.time + int(short_connection[2]) > 120:
+                if self.time + int(short_connection[2]) > self.max_time:
                     break
 
                 # If connection's not yet in the connections_added list, add
@@ -57,10 +60,13 @@ class Algorithm(object):
                 elif current_city in short_connection[0]:
                     current_city = short_connection[1]
                 self.traject.append(current_city)
+
             self.trajects.append(self.traject)
             self.total_time += self.time
+
             if len(self.used_connections) == len(self.all_connections):
-                break
+                return self.score(), self.trajects, self.used_connections, self.total_time
+
         # if len(self.used_connections) < self.max_connections:
         #             self.total_time = 0
         #             self.used_connections = []
@@ -68,7 +74,7 @@ class Algorithm(object):
         #             self.find_traject()
         #         else:
         #             return self.score()
-        return self.score(), self.trajects
+        return self.score(), self.trajects, self.used_connections, self.total_time
 
     # Calculate the score
     def score(self):

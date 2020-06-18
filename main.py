@@ -101,9 +101,6 @@ def prompt_algorithm():
     elif answer == 2:
         algorithm = g
         best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects])
-        # print(load_connections)
-        # nog even beslissen hoe en wat met greedy
-        # print("It's 'Dijkstra' now")
 
     elif answer == 3:
         algorithm = gf
@@ -122,7 +119,7 @@ def prompt_algorithm():
 
     generate_output(best_answer[0], best_answer[1])
 
-    print("Klaar! In de map 'data' is jouw uitkomst verschenen, deze zit in het bestand: 'output.csv'")
+    print("Klaar! In de map 'results' is jouw uitkomst verschenen, deze zit in het bestand: 'output.csv'")
 
 
 if __name__ == "__main__":
@@ -138,12 +135,9 @@ if __name__ == "__main__":
     # hill_climber = hc.Hillclimb(load_connections).find_traject()
 
     # --------------------------- Run Greedy algoritme --------------------------
-    
-    #load_connections = connections.Connections("data/ConnectiesHolland.csv")
     #greedy = g.Algorithm(load_connections).find_traject()
 
     """
-
 def calculate_mean_score(x=100):
     scores = []
     for i in range(x):
