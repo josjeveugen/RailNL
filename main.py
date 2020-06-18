@@ -17,14 +17,22 @@ import csv
 #   in de compare output functie zie je waarom, daar worden de scores vgl,
 #   en wordt uiteindelijk de beste wordt gegenereerd.
 #   belangrijk is self.used_connections terug te geven voor de hillclimber!
+# - de final_traject om hem ready te maken voor de output moet er uit!
+#   dit wordt gedaan in generate_output functie. Dit is nodig omdat hillclimber
+#   anders niet werkt.
 # That's it! Ga er vooral mee spelen en probeer fouten/verbeteringen te vinden :-)
 
 
 # Puts the best output in a csv file.
 def generate_output(score, trajects):
+    output_trajects = []
+    for traject in trajects:
+        final_traject = "[%s]" % (', '.join(traject))
+        output_trajects.append(final_traject)
+    
     output = [["train", "stations"]]
 
-    for i, traject in enumerate(trajects):
+    for i, traject in enumerate(output_trajects):
         string = "train_"+str(i)
         output.append([string, traject])
     output.append(["score", score])
@@ -102,7 +110,7 @@ def prompt_algorithm():
     
     if hill_flag:
         # Run het hillclimber algoritme
-        best_answer = hc.Algorithm(load_connections, best_answer[1])
+        best_answer = hc.Algorithm(load_connections, best_answer[1], best_answer[2])
         return 0
     
     generate_output(best_answer[0], best_answer[1])
