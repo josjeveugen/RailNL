@@ -57,13 +57,16 @@ def compare_outputs(algorithm, args):
 def prompt_algorithm():
     print("Welkom bij RailNL!\n")
     print("Welk spoorlijn probleem wil je oplossen?")
-    print("  1: Noord-Holland")
+    print("  1: Holland")
     print("  2: Nationaal")
-
-    answer = int(input())
-    while answer != 1 and answer != 2:
-        print("Je moet een getal van 1 of 2 invullen...")
-        answer = int(input())
+    
+    while True:
+        answer = input()
+        if answer.isdigit():
+            answer = int(answer)
+        if answer == 1 or answer == 2:
+            break
+        print("Vul '1' of '2' in om een spoorlijn te kiezen")
 
     if answer == 1:
         max_time = 120
@@ -77,18 +80,24 @@ def prompt_algorithm():
     print("Met welk algoritme wil je dit oplossen?")
     print("  1: Random\n  2: Greedy\n  3: Greedy Lookahead")
 
-    answer = int(input())
-    while answer != 1 and answer != 2 and answer != 3:
-        print("Je moet een getal van 1, 2 of 3 invullen...")
-        answer = int(input())
+    while True:
+        answer = input()
+        if answer.isdigit():
+            answer = int(answer)
+        if answer == 1 or answer == 2 or answer == 3:
+            break
+        print("Vul '1','2' of '3' in om een algoritme te kiezen")
 
     print("Wil je hillclimber toepassen op het gekozen algoritme?")
-    print("  0: Nee\n  1: Ja")
+    print("  1: Ja\n  2: Nee")
 
-    hill_flag = int(input())
-    while hill_flag != 0 and hill_flag != 1:
-        print("Je moet een getal van 0 of 1 invullen...")
-        hill_flag = int(input())
+    while True:
+        hil_flag = input()
+        if hill_flag.isdigit():
+            hill_flag = int(hill_flag)
+        if hill_flag == 1 or hill_flag == 2:
+            break
+        print("Vul '1' in om hillclimber toe te passen, vul anders '2'")
 
     print("Top! We runnen het algoritme een paar keer zodat je hoogstwaarschijnlijk een goede uitkomst krijgt.\n")
     print("Dit kan even duren, een moment geduld alstublieft...")
@@ -112,7 +121,7 @@ def prompt_algorithm():
 
         best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects, steps])
 
-    if hill_flag:
+    if hill_flag == 1:
         # Run het hillclimber algoritme
         best_answer = hc.Algorithm(load_connections, best_answer[0], best_answer[1], best_answer[2], best_answer[3],
                                    max_time).find_solution()
