@@ -92,7 +92,7 @@ def prompt_algorithm():
     print("  1: Ja\n  2: Nee")
 
     while True:
-        hil_flag = input()
+        hill_flag = input()
         if hill_flag.isdigit():
             hill_flag = int(hill_flag)
         if hill_flag == 1 or hill_flag == 2:
