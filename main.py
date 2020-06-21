@@ -1,6 +1,6 @@
 from codes import connections
 from codes import random_algoritme as r
-from codes import greedy as g
+from codes import dijkstra_algoritme as g
 from codes import greedy_lookahead as gf
 from codes import hillclimber as hc
 import matplotlib.pyplot as plt
@@ -12,7 +12,7 @@ import csv
 # - even kijken bij random_algorithm wat je moet veranderen in __init__
 #   daar zie je args, dit heet nu zo, zodat dezelfde functie ook met
 #   greedy lookahead werkt.
-# - de output van een algoritme zijn 4 dingen: self.score(), self.trajects, self.used_connections, 
+# - de output van een algoritme zijn 4 dingen: self.score(), self.trajects, self.used_connections,
 #   self.total_time (de output wordt nu in deze file gemaakt, scheelt wat extra loops)
 #   in de compare output functie zie je waarom, daar worden de scores vgl,
 #   en wordt uiteindelijk de beste wordt gegenereerd.
@@ -30,19 +30,20 @@ def generate_output(score, trajects):
     for traject in trajects:
         final_traject = "[%s]" % (', '.join(traject))
         output_trajects.append(final_traject)
-    
+
     output = [["train", "stations"]]
 
     for i, traject in enumerate(output_trajects):
-        string = "train_"+str(i)
+        string = "train_" + str(i)
         output.append([string, traject])
     output.append(["score", score])
 
     with open('results/output.csv', 'w', newline='') as file:
         writer = csv.writer(file, delimiter=',')
         writer.writerows(output)
- 
-# Compares generated outputs and returns the best.       
+
+
+# Compares generated outputs and returns the best.
 def compare_outputs(algorithm, args):
     best_answer = algorithm.Algorithm(args).find_traject()
     for i in range(99):
@@ -51,18 +52,19 @@ def compare_outputs(algorithm, args):
             best_answer = answer
     return best_answer
 
+
 # Asks and returns the output the user wants.
 def prompt_algorithm():
     print("Welkom bij RailNL!\n")
     print("Welk spoorlijn probleem wil je oplossen?")
     print("  1: Noord-Holland")
     print("  2: Nationaal")
-    
+
     answer = int(input())
     while answer != 1 and answer != 2:
         print("Je moet een getal van 1 of 2 invullen...")
         answer = int(input())
-    
+
     if answer == 1:
         max_time = 120
         max_trajects = 7
@@ -71,34 +73,35 @@ def prompt_algorithm():
         max_time = 180
         max_trajects = 20
         load_connections = connections.Connections("data/ConnectiesNationaal.csv")
-    
+
     print("Met welk algoritme wil je dit oplossen?")
     print("  1: Random\n  2: Greedy\n  3: Greedy Lookahead")
-    
+
     answer = int(input())
     while answer != 1 and answer != 2 and answer != 3:
         print("Je moet een getal van 1, 2 of 3 invullen...")
         answer = int(input())
-        
+
     print("Wil je hillclimber toepassen op het gekozen algoritme?")
     print("  0: Nee\n  1: Ja")
-    
+
     hill_flag = int(input())
     while hill_flag != 0 and hill_flag != 1:
         print("Je moet een getal van 0 of 1 invullen...")
         hill_flag = int(input())
-    
+
     print("Top! We runnen het algoritme een paar keer zodat je hoogstwaarschijnlijk een goede uitkomst krijgt.\n")
     print("Dit kan even duren, een moment geduld alstublieft...")
-    
+
     if answer == 1:
         algorithm = r
         best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects])
-        
+
+
     elif answer == 2:
-        # nog even beslissen hoe en wat met greedy
-        print("Not done yet...")
-        
+        algorithm = g
+        best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects])
+
     elif answer == 3:
         algorithm = gf
         print("Hoeveel steden vooruit wil je in acht nemen (max = 20)?")
@@ -106,41 +109,39 @@ def prompt_algorithm():
         while answer not in range(1, 21):
             print("Kies een getal tussen 1 en 20...")
             steps = int(input())
-        
+
         best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects, steps])
-    
+
     if hill_flag:
         # Run het hillclimber algoritme
-        best_answer = hc.Algorithm(load_connections, best_answer[0], best_answer[1], best_answer[2], best_answer[3], max_time).find_solution()
-    
+        best_answer = hc.Algorithm(load_connections, best_answer[0], best_answer[1], best_answer[2], best_answer[3],
+                                   max_time).find_solution()
+
     generate_output(best_answer[0], best_answer[1])
-        
-    print("Klaar! In de map 'data' is jouw uitkomst verschenen, deze zit in het bestand: 'output.csv'")
+
+    print("Klaar! In de map 'results' is jouw uitkomst verschenen, deze zit in het bestand: 'output.csv'")
+
 
 if __name__ == "__main__":
     prompt_algorithm()
-    
+
     """
     # Run the connections class with the connections file
     load_connections = connections.Connections("data/ConnectiesNationaal.csv")
-
     # Verwijder comment van het algoritme wat je wil runnen
-
     # --------------------------- Random reassignment --------------------------
     # random = r.Random(load_connections).find_traject()
-
     # --------------------------- Run Hill climber algoritme --------------------------
     # hill_climber = hc.Hillclimb(load_connections).find_traject()
-    
-    # --------------------------- Run Greedy algoritme --------------------------
-    greedy = g.Greedy(load_connections)
-    """
 
-    
-def calculate_mean_score(x = 100):
+    # --------------------------- Run Greedy algoritme --------------------------
+    #greedy = g.Algorithm(load_connections).find_traject()
+
+    """
+def calculate_mean_score(x=100):
     scores = []
     for i in range(x):
-        #choose algorithm you want to run
+        # choose algorithm you want to run
         scores = g.Greedy(load_connections).find_traject()
     print(scores)
     print(max(scores), min(scores))
@@ -149,7 +150,8 @@ def calculate_mean_score(x = 100):
     # probleem is dat je terminal zal blijven runnen vanwege plt.show()
     # dus je moet je terminal beënidgen wanneer je iets nieuws wilt.
 
-def calculate_average(max_loop = 100):
+
+def calculate_average(max_loop=100):
     scores = []
     sum = 0
     sum_connections = 0
@@ -172,4 +174,3 @@ def calculate_average(max_loop = 100):
     print("Average connections:", average_connections)
     print("Average trajects:", average_trajects)
     print("Average time:", average_time)
-
