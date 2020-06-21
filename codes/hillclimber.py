@@ -17,13 +17,11 @@ class Algorithm(object):
             new_trajects, new_used, new_time = self.delete_2_trajects()
             new_trajects, new_used, new_score = self.generate_2_new_trajects(new_trajects, new_used, new_time)
 
-            print(new_score, self.score)
             if new_score > self.score:
                 self.trajects = new_trajects
                 self.used_connections = new_used
                 self.total_time = new_time
                 self.score = new_score
-            print(self.trajects)
 
         return self.score, self.trajects
 

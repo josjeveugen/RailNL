@@ -146,3 +146,8 @@ class Algorithm(object):
         neighbours = city.get_neighbours()
         neighbours = self.check_traject(city, neighbours)
         return neighbours[random.randint(0, len(neighbours) - 1)]
+    
+    # berekent de kwaliteit van de lijnvoering
+    def score(self):
+        p = len(self.used_connections) / len(self.all_connections)
+        return p * 10000 - (len(self.trajects) * 100 + self.total_time)

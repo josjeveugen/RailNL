@@ -98,9 +98,18 @@ def prompt_algorithm():
         if hill_flag == 1 or hill_flag == 2:
             break
         print("Vul '1' in om hillclimber toe te passen, vul anders '2'")
+        
+    if answer == 3:
+        print("Hoeveel steden vooruit wil je in acht nemen (max = 20)?")
+        steps = int(input())
+        while answer not in range(1, 21):
+            print("Kies een getal tussen 1 en 20...")
+            steps = int(input())
 
     print("Top! We runnen het algoritme een paar keer zodat je hoogstwaarschijnlijk een goede uitkomst krijgt.\n")
     print("Dit kan even duren, een moment geduld alstublieft...")
+    
+    
 
     if answer == 1:
         algorithm = r
@@ -113,12 +122,6 @@ def prompt_algorithm():
 
     elif answer == 3:
         algorithm = gf
-        print("Hoeveel steden vooruit wil je in acht nemen (max = 20)?")
-        steps = int(input())
-        while answer not in range(1, 21):
-            print("Kies een getal tussen 1 en 20...")
-            steps = int(input())
-
         best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects, steps])
 
     if hill_flag == 1:
