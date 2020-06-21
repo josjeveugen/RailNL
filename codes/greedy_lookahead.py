@@ -1,4 +1,3 @@
-
 import random
 import csv
 import matplotlib.pyplot as plt
@@ -22,7 +21,6 @@ class Algorithm(object):
         #starter_cities = self.less_neighbours()
         
         for i in range(self.max_trajects):
-            print("new traject")
             start = random.randint(0, len(self.cities) - 1)
             start_city = self.cities[start]
             time = 0
@@ -90,7 +88,6 @@ class Algorithm(object):
         
         # geeft de alle buren mee indien alle buren als eens zijn gebruikt.
         if new_neigh == []:
-            print("all neighbours are already used")
             return neighbours
         return new_neigh
     
@@ -100,7 +97,6 @@ class Algorithm(object):
 
         for neighbour in neighbours:
             if city.get_time(neighbour) < city.get_time(prev_neigh):
-                print("new time:", city.name, neighbour.name, city.get_time(neighbour))
                 best_neigh = neighbour
 
         return best_neigh
@@ -109,31 +105,23 @@ class Algorithm(object):
         # random een pad uitkiezen, kijken welk pad het minst langst duurde
         # maar kijk ook wel pad het langste is.
         # of kijken naar het pad dat veel buren heeft?
-        print("chosing neighbour...")
         
         trials = self.steps
         best_time = self.max_time
         best_traject = []
         best_neigh = None
-        
-        print(best_time, best_traject, best_neigh)
 
         for trial in range(trials):
             first_city = self.choose_random_neighbour(city)
             traject = [first_city]
             time = 0
             start_city = first_city
-            print("start:", start_city.name)
 
             for step in range(1, self.steps):
                 next_city = self.choose_random_neighbour(start_city)
-                print("next city:", next_city.name)
 
                 if self.dubble_connection(traject, next_city.name):
-                    print("dubble:")
-                    print(traject)
                     traject = traject[:-2]
-                    print(traject)
                     
                 else:
                     time += start_city.get_time(next_city)
@@ -150,7 +138,6 @@ class Algorithm(object):
                     best_traject = traject
                     best_time = time
                     best_neigh = first_city
-            print("best", best_traject, best_time, best_neigh)
      
         return best_neigh
             
@@ -159,28 +146,3 @@ class Algorithm(object):
         neighbours = city.get_neighbours()
         neighbours = self.check_traject(city, neighbours)
         return neighbours[random.randint(0, len(neighbours) - 1)]
-    
-    # berekent de kwaliteit van de lijnvoering
-    def score(self):
-        p = len(self.used_connections) / len(self.all_connections)
-        print(len(self.used_connections), len(self.all_connections), self.used_connections)
-        print(p, len(self.trajects), self.total_time)
-        return p * 10000 - (len(self.trajects) * 100 + self.total_time)
-    
-    # geeft de output voor in het csv bestand.
-    def output(self):
-        score = self.score()
-        output = [["train", "stations"]]
-
-        for i, traject in enumerate(self.trajects):
-            string = "train_" + str(i)
-            output.append([string, traject])
-            print(["train_{}".format(i), traject])
-
-        output.append(["score", score])
-        print("score", score)
-
-        with open('results/goutput.csv', 'w', newline='') as file:
-            writer = csv.writer(file, delimiter=',')
-            writer.writerows(output)
-        pass
