@@ -55,10 +55,8 @@ def compare_outputs(algorithm, args):
 
 # Asks and returns the output the user wants.
 def prompt_algorithm():
-    print("Welkom bij RailNL!\n")
-    print("Welk spoorlijn probleem wil je oplossen?")
-    print("  1: Holland")
-    print("  2: Nationaal")
+    print("Welkom bij RailNL!\n\nWelk spoorlijn probleem wil je oplossen?")
+    print("  1: Holland\n  2: Nationaal")
     
     while True:
         answer = input()
@@ -87,6 +85,20 @@ def prompt_algorithm():
         if answer == 1 or answer == 2 or answer == 3:
             break
         print("Vul '1','2' of '3' in om een algoritme te kiezen")
+        
+    if answer == 3:
+        print("Hoeveel steden wil je vooruit kijken bij Greedy lookahead (max = 20)?")
+        while True:
+            steps = input()
+            if steps.isdigit():
+                steps = int(steps)
+            if steps in range(1, 21):
+                break
+            print("Kies een getal tussen 1 en 20...")
+
+    print("Op welke manier wil je de beginstad van ieder traject kiezen?")
+    print("  1: Random\n  2: Meeste buren\n  3: Minste buren")
+    
 
     print("Wil je hillclimber toepassen op het gekozen algoritme?")
     print("  1: Ja\n  2: Nee")
@@ -97,20 +109,12 @@ def prompt_algorithm():
             hill_flag = int(hill_flag)
         if hill_flag == 1 or hill_flag == 2:
             break
-        print("Vul '1' in om hillclimber toe te passen, vul anders '2'")
-        
-    if answer == 3:
-        print("Hoeveel steden vooruit wil je in acht nemen (max = 20)?")
-        steps = int(input())
-        while answer not in range(1, 21):
-            print("Kies een getal tussen 1 en 20...")
-            steps = int(input())
-
+        print("Vul '1' in om hillclimber toe te passen, vul anders '2' in")
+              
+            
     print("Top! We runnen het algoritme een paar keer zodat je hoogstwaarschijnlijk een goede uitkomst krijgt.\n")
     print("Dit kan even duren, een moment geduld alstublieft...")
     
-    
-
     if answer == 1:
         algorithm = r
         best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects])
@@ -128,6 +132,7 @@ def prompt_algorithm():
         # Run het hillclimber algoritme
         best_answer = hc.Algorithm(load_connections, best_answer[0], best_answer[1], best_answer[2], best_answer[3],
                                    max_time).find_solution()
+
 
     generate_output(best_answer[0], best_answer[1])
 
