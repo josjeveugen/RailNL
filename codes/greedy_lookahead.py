@@ -13,8 +13,6 @@ class Algorithm(object):
         self.max_time = args[1]
         self.total_time = 0
         self.steps = args[3]
-        
-        print(self.all_connections)
      
     # dit is het random algoritme dat de trajecten probeert te vinden.
     def find_traject(self):

@@ -173,25 +173,4 @@ class Greedy(object):
     # berekent de kwaliteit van de lijnvoering
     def score(self):
         p = len(self.used_connections) / len(self.all_connections)
-
         return (p * 10000 - (len(self.trajects) * 100 + self.total_time))
-
-    # geeft de output voor in het csv bestand.
-    def output(self):
-        score = self.score()
-        output = [["train", "stations"]]
-
-        for i, traject in enumerate(self.trajects):
-            string = "train_" + str(i)
-            output.append([string, traject])
-            print(["train_{}".format(i), traject])
-
-        output.append(["score", score])
-        print("score", score)
-
-
-
-        with open('results/goutput.csv', 'w', newline='') as file:
-            writer = csv.writer(file, delimiter=',')
-            writer.writerows(output)
-        pass
