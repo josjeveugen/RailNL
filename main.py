@@ -131,7 +131,6 @@ def prompt_algorithm():
 
 
     generate_output(best_answer[0], best_answer[1])
-    print(best_answer[0])
     print("Klaar! In de map 'results' is jouw uitkomst verschenen, deze zit in het bestand: 'output.csv'")
 
 
