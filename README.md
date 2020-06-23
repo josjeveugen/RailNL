@@ -1,6 +1,6 @@
 # CASE: RailNL
 
-## Doel van het project:
+## Doel van het project
 Het doel van het project is het oplossen van de case RailNL (voor meer informatie, zie: https://theorie.mprog.nl/cases/railnl). Kortgezegd is het uiteindelijke doel het verbinden van trein-lijnvoeringen. Meegegeven in de map 'data' zijn twee lijnvoeringen, de ene lijnvoering is kleiner, deze is de Hollands lijnvoering. De tweede lijnvoering is groter en is de Nationale lijnvoering. Dit is een optimalisatie project waarbij er in een periode van 4 weken tijd gezocht werd naar het vinden van een zo goed mogelijk algoritme.
 
 Binnen een gegeven tijdsframe worden een aantal trajecten verbonden. Een traject is een route van sporen en stations waarover treinen heen en weer rijden. Met de meegegeven doelfunctie wordt berekent hoe goed de trajecten scoren.
