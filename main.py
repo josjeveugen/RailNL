@@ -1,6 +1,6 @@
 from codes import connections
 from codes import random_algoritme as r
-from codes import dijkstra_algoritme as g
+from codes import greedy_longest_path as glp
 from codes import greedy_lookahead as gf
 from codes import hillclimber as hc
 import matplotlib.pyplot as plt
@@ -121,7 +121,7 @@ def prompt_algorithm():
 
 
     elif answer == 2:
-        algorithm = g
+        algorithm = glp
         best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects])
 
     elif answer == 3:
