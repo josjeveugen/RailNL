@@ -11,11 +11,10 @@ Dit project vereist geen externe packages.
 ## Gebruiksaanwijzing
 Om een oplossing te verkrijgen voor de gewenste lijnvoering, moet main.py gerund worden. Deze file zal de gebruiker vragen welke algoritmes er gerund moeten worden. Main.py runt het gewenste algoritme 1000 keer, zodat er op die manier hoogstwaarschijnlijk een goede oplossing verschijnt. Vervolgens zal er een output verschijnen met de naam: 'output.csv' in de data map. 
 
-    python3 main.py
+    python main.py
     
 ## Structuur
-De hierop volgende lijst beschrijft de mappen en files 
-in het project, en waar je ze kan vinden:
+Onderstaande lijst laat de opzet van de mappen en bestanden van dit project zien.
 * **/codes:** 
     * code voor de algoritmes
     * code voor de classes
@@ -25,13 +24,7 @@ in het project, en waar je ze kan vinden:
     * map waarin de output wordt gegenereerd
 
 
-<<<<<<< HEAD
-Dus om het te laten werken, type je: "python main.py" en de rest wijst zich vanzelf!
-
-### Auteurs
-=======
 ## Auteurs
->>>>>>> 81bcfbd1bf4f505e752fe7731f3be086a563a38e
 * Amber Cok
 * Josje Veugen
 * Julia van Tol
