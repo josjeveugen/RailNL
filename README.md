@@ -20,7 +20,7 @@ in het project, en waar je ze kan vinden:
     * code voor de algoritmes
     * code voor de classes
 * **/data:**
-    * data bestanden die nodig zijn om de connections tussen steden te maken
+    * data bestanden die nodig zijn om de connecties tussen steden te maken
 * **/results:**
     * map waarin de output wordt gegenereerd
 
