@@ -122,7 +122,4 @@ class Algorithm(object):
     # Calculate score
     def score(self):
         p = len(self.used_connections) / len(self.all_connections)
-        print(p * 10000 - (len(self.trajects) * 100 + self.total_time))
-        print(len(self.used_connections), len(self.all_connections))
-        print(p, len(self.trajects), self.total_time)
         return p * 10000 - (len(self.trajects) * 100 + self.total_time)

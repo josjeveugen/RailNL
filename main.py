@@ -3,7 +3,6 @@ from codes import random_algoritme as r
 from codes import greedy_longest_path as glp
 from codes import greedy_lookahead as gf
 from codes import hillclimber as hc
-import matplotlib.pyplot as plt
 import csv
 
 # Puts the best output in a csv file.
@@ -110,8 +109,8 @@ def prompt_algorithm():
         algorithm = gf
         best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects, steps])
 
+    # Run hill climber algoritme
     if hill_flag == 1:
-        # Run het hillclimber algoritme
         best_answer = hc.Algorithm(load_connections, best_answer[0], best_answer[1], best_answer[2], best_answer[3],
                                    max_time).find_solution()
 

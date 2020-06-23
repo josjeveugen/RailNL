@@ -24,6 +24,7 @@ class Algorithm(object):
 
         return self.score, self.trajects
 
+    # Deletes two trajects and puts new version in a copy
     def delete_2_trajects(self):
         new_trajects = self.trajects.copy()
         for i in range(2):
@@ -32,6 +33,7 @@ class Algorithm(object):
 
         return self.adjust_new_con_and_time(new_trajects)
 
+    # Creates two new trajects and adds according variables, like time.
     def adjust_new_con_and_time(self, new_trajects):
         new_used = []
         new_time = 0
@@ -54,6 +56,7 @@ class Algorithm(object):
 
         return new_trajects, new_used, new_time
 
+    # Generates two new trajects and keeps the changes if the score is improved.
     def generate_2_new_trajects(self, new_trajects, new_used, new_time):
         for i in range(2):
             start = random.randint(0, len(self.cities) - 1)
@@ -64,10 +67,6 @@ class Algorithm(object):
             traject = [start_city.name]
 
             while under_timelimit:
-                # Stops the find_traject algorithm when all connections are already made
-                if len(new_used) == len(self.all_connections):
-                    return new_trajects, new_used, self.new_score(new_trajects, new_used, new_time)
-
                 # Checks the possible neighbours and if they have been used already
                 neighbours = start_city.get_neighbours()
                 neighbours = self.check_traject(start_city, neighbours, new_used)

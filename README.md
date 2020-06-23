@@ -9,6 +9,8 @@ Binnen een gegeven tijdsframe worden een aantal trajecten verbonden. Een traject
 ## Gebruiksaanwijzing:
 Om een oplossing te verkrijgen voor de gewenste lijnvoering, moet main.py gerund worden. Deze file zal de gebruiker vragen welke algoritmes er gerund moeten worden. Main.py runt het gewenste algoritme 100 keer, zodat er op die manier hoogstwaarschijnlijk een goede oplossing verschijnt. Vervolgens zal er een output verschijnen met de naam: 'output.csv' in de data map. 
 
+Dus om het te laten werken, type je: "python main.py" en de rest wijst zich vanzelf!
+
 ### Auteurs
 * Amber Cok
 * Josje Veugen

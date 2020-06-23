@@ -1,8 +1,4 @@
-from .connections import City
-from .connections import Connections
 import random
-import csv
-
 
 # Algorithm that chooses a random neighbour
 class Algorithm(object):
