@@ -5,7 +5,6 @@ class Algorithm(object):
         self.all_connections = connections.connections
         self.cities = connections.cities
         self.ids = connections.city_ids
-
         self.score = score
         self.trajects = trajects
         self.used_connections = used_connections
@@ -46,7 +45,7 @@ class Algorithm(object):
                 if city_pair not in new_used:
                     new_used.append(city_pair)
 
-                # adding the time to new total time
+                # Adding the time to new total time
                 city1_node = self.cities[self.ids[city1]]
                 city2_node = self.cities[self.ids[city2]]
                 new_time += city1_node.get_time(city2_node)
@@ -60,24 +59,25 @@ class Algorithm(object):
             start = random.randint(0, len(self.cities) - 1)
             start_city = self.cities[start]
             time = 0
-            # wordt gebruikt om te checken of het traject niet over tijdslimiet gaat.
+            # This is used to check whether the traject has exceeded the time limit
             under_timelimit = True
             traject = [start_city.name]
 
             while under_timelimit:
-                # stopt het find_traject algoritme wanneer alle verbindingen al zijn gemaakt
+                # Stops the find_traject algorithm when all connections are already made
                 if len(new_used) == len(self.all_connections):
                     return new_trajects, new_used, self.new_score(new_trajects, new_used, new_time)
 
-                # checkt welke neighbours er zijn en of ze niet dubbel gebruikt zullen worden.
+                # Checks the possible neighbours and if they have been used already
                 neighbours = start_city.get_neighbours()
                 neighbours = self.check_traject(start_city, neighbours, new_used)
-                # random buur kiezen
+
+                # Pick a random neighbour
                 random_val = random.randint(0, len(neighbours) - 1)
                 next_city = neighbours[random_val]
                 next_time = start_city.get_time(next_city)
 
-                # begint nieuw traject als het tijdslimiet overschreden is.
+                # Start new traject if time limit has been exceeded
                 if time + next_time >= self.max_time:
                     under_timelimit = False
                     break
@@ -85,7 +85,7 @@ class Algorithm(object):
                 traject.append(next_city.name)
                 time += next_time
 
-                # nieuwe stad wordt toegevoegd aan used_connections
+                # Add new city to used_connections
                 city_pair = [start_city.name, next_city.name]
                 city_pair.sort()
                 if city_pair not in new_used:
@@ -98,6 +98,7 @@ class Algorithm(object):
 
         return new_trajects, new_used, self.new_score(new_trajects, new_used, new_time)
 
+    # Checks if the neighbours have been used already
     def check_traject(self, city, neighbours, new_used):
         new_neigh = []
         for neighbour in neighbours:
@@ -106,11 +107,12 @@ class Algorithm(object):
             if city_pair not in new_used:
                 new_neigh.append(neighbour)
 
-        # geeft de alle buren mee indien alle buren als eens zijn gebruikt.
+        # If all neighbours are already used, return all possible neighbours
         if new_neigh == []:
             return neighbours
         return new_neigh
 
+    # Calculate score
     def new_score(self, new_trajects, new_used, new_time):
         p = len(new_used) / len(self.all_connections)
         return p * 10000 - (len(new_trajects) * 100 + new_time)
