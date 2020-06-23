@@ -2,3 +2,7 @@
 .idea
 data/.DS_Store
 results/.DS_Store
+results/__pycache__
+data/__pycache__
+codes/__pycache__
+codes/.DS_Store
