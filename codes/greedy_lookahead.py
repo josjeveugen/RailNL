@@ -24,10 +24,6 @@ class Algorithm(object):
             traject = [start_city.name]
 
             while under_timelimit:
-                # Stops the find traject algorithm when all connections are already made
-                if len(self.used_connections) == len(self.all_connections):
-                    return self.score(), self.trajects, self.used_connections, self.total_time
-
                 # Checks the possible neighbours and if they have been used already
                 neighbours = start_city.get_neighbours()
                 neighbours = self.check_traject(start_city, neighbours)
@@ -59,7 +55,7 @@ class Algorithm(object):
             self.trajects.append(traject)
             self.total_time += time
 
-        return self.score(), self.trajects, self.used_connections, self.total_time
+        return self.score(), self.trajects
 
     def dubble_connection(self, traject, city_name):
         if len(traject) > 1 and city_name == traject[-2]:
@@ -80,8 +76,8 @@ class Algorithm(object):
             return neighbours
         return new_neigh
 
+    # Chooses a random path and checks which path has the shortest time
     def choose_shortest_time_forward(self, city):
-        # Chooses a random path and checks which path has the shortest time
         trials = self.steps
         best_time = self.max_time
         best_traject = []
@@ -117,6 +113,7 @@ class Algorithm(object):
 
         return best_neigh
 
+    # Returns a random nearby city
     def choose_random_neighbour(self, city):
         neighbours = city.get_neighbours()
         neighbours = self.check_traject(city, neighbours)
@@ -125,4 +122,7 @@ class Algorithm(object):
     # Calculate score
     def score(self):
         p = len(self.used_connections) / len(self.all_connections)
+        print(p * 10000 - (len(self.trajects) * 100 + self.total_time))
+        print(len(self.used_connections), len(self.all_connections))
+        print(p, len(self.trajects), self.total_time)
         return p * 10000 - (len(self.trajects) * 100 + self.total_time)

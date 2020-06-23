@@ -26,10 +26,6 @@ class Algorithm(object):
             traject = [start_city.name]
 
             while under_timelimit:
-                # Stops the find_traject algorithm when all connections are already made
-                if len(self.used_connections) == len(self.all_connections):
-                    return self.score(), self.trajects, self.used_connections, self.total_time
-
                 # Checks the possible neighbours and if they have been used already
                 neighbours = start_city.get_neighbours()
                 neighbours = self.check_traject(start_city, neighbours)
