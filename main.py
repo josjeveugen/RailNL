@@ -27,7 +27,7 @@ def generate_output(score, trajects):
 # Compares generated outputs and returns the best.
 def compare_outputs(algorithm, args):
     best_answer = algorithm.Algorithm(args).find_traject()
-    for i in range(99):
+    for i in range(10000):
         answer = algorithm.Algorithm(args).find_traject()
         if answer[0] > best_answer[0]:
             best_answer = answer
