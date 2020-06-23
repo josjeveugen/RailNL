@@ -6,24 +6,6 @@ from codes import hillclimber as hc
 import matplotlib.pyplot as plt
 import csv
 
-
-# om dit te laten werken zijn een aantal veranderingen nodig...
-# - class naam wordt: Algorithm
-# - even kijken bij random_algorithm wat je moet veranderen in __init__
-#   daar zie je args, dit heet nu zo, zodat dezelfde functie ook met
-#   greedy lookahead werkt.
-# - de output van een algoritme zijn 4 dingen: self.score(), self.trajects, self.used_connections,
-#   self.total_time (de output wordt nu in deze file gemaakt, scheelt wat extra loops)
-#   in de compare output functie zie je waarom, daar worden de scores vgl,
-#   en wordt uiteindelijk de beste wordt gegenereerd.
-#   belangrijk is self.used_connections terug te geven voor de hillclimber!
-#   hetzelfde geldt ook voor self.total_time!
-# - de final_traject om hem ready te maken voor de output moet er uit!
-#   dit wordt gedaan in generate_output functie. Dit is nodig omdat hillclimber
-#   anders niet werkt.
-# That's it! Ga er vooral mee spelen en probeer fouten/verbeteringen te vinden :-)
-
-
 # Puts the best output in a csv file.
 def generate_output(score, trajects):
     output_trajects = []
