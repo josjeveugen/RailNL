@@ -1,8 +1,6 @@
 from codes import connections
 from codes import random_algoritme as r
-# from codes import greedy_longest_path as glp
-from codes import greedy_neighbours as glp
-
+from codes import greedy as g
 from codes import greedy_lookahead as gf
 from codes import hillclimber as hc
 import csv
@@ -79,7 +77,7 @@ def prompt_algorithm():
                 break
             print("Kies een getal tussen 1 en 20...")
     
-    if answer == 2 or answer == 3:
+    if answer == 2:
         print("Op welke manier wil je de beginstad van ieder traject kiezen?")
         print("  1: Random\n  2: Meeste buren\n  3: Minste buren")
         
@@ -119,12 +117,12 @@ def prompt_algorithm():
 
 
     elif answer == 2:
-        algorithm = glp
+        algorithm = g
         best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects, start])
 
     elif answer == 3:
         algorithm = gf
-        best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects, steps, start])
+        best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects, steps])
 
     # Run hill climber algoritme
     if hill_flag == 1:
