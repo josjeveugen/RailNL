@@ -1,15 +1,24 @@
 # CASE: RailNL
 
 ## Doel van het project
-Het doel van het project is het oplossen van de case RailNL (voor meer informatie, zie: https://theorie.mprog.nl/cases/railnl). Kortgezegd is het uiteindelijke doel het verbinden van trein-lijnvoeringen. Meegegeven in de map 'data' zijn twee lijnvoeringen, de ene lijnvoering is kleiner, deze is de Hollands lijnvoering. De tweede lijnvoering is groter en is de Nationale lijnvoering. Dit is een optimalisatie project waarbij er in een periode van 4 weken tijd gezocht werd naar het vinden van een zo goed mogelijk algoritme.
+Het doel van het project is het oplossen van de case RailNL (voor meer informatie, zie:
+https://theorie.mprog.nl/cases/railnl). Kortgezegd is het uiteindelijke doel het verbinden van trein-lijnvoeringen. 
+Meegegeven in de map 'data' zijn twee lijnvoeringen, de ene lijnvoering is kleiner, deze is de Hollands lijnvoering. 
+De tweede lijnvoering is groter en is de Nationale lijnvoering. Dit is een optimalisatie project waarbij er in een 
+periode van 4 weken tijd gezocht werd naar het vinden van een zo goed mogelijk algoritme.
 
-Binnen een gegeven tijdsframe worden een aantal trajecten verbonden. Een traject is een route van sporen en stations waarover treinen heen en weer rijden. Met de meegegeven doelfunctie wordt berekent hoe goed de trajecten scoren.
+Binnen een gegeven tijdsframe worden een aantal trajecten verbonden. Een traject is een route van 
+sporen en stations waarover treinen heen en weer rijden. Met de meegegeven doelfunctie wordt berekent hoe goed 
+de trajecten scoren.
 
 ## Vereisten
 Dit project vereist geen externe packages.
 
 ## Gebruiksaanwijzing
-Om een oplossing te verkrijgen voor de gewenste lijnvoering, moet main.py gerund worden. Deze file zal de gebruiker vragen welke algoritmes er gerund moeten worden. Main.py runt het gewenste algoritme 1000 keer, zodat er op die manier hoogstwaarschijnlijk een goede oplossing verschijnt. Vervolgens zal er een output verschijnen met de naam: 'output.csv' in de results map. 
+Om een oplossing te verkrijgen voor de gewenste lijnvoering, moet main.py gerund worden. Deze file zal de gebruiker
+vragen welke algoritmes er gerund moeten worden. Main.py runt het gewenste algoritme 10000 keer, zodat er op die manier
+hoogstwaarschijnlijk een goede oplossing verschijnt. Vervolgens zal er een output verschijnen met de naam: 'output.csv' 
+in de map 'results'. 
 
     python main.py
     
