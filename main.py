@@ -1,6 +1,8 @@
 from codes import connections
 from codes import random_algoritme as r
-from codes import greedy_longest_path as glp
+# from codes import greedy_longest_path as glp
+from codes import greedy_neighbours as glp
+
 from codes import greedy_lookahead as gf
 from codes import hillclimber as hc
 import csv
@@ -55,7 +57,7 @@ def prompt_algorithm():
         max_time = 180
         max_trajects = 20
         load_connections = connections.Connections("data/ConnectiesNationaal.csv")
-
+        
     print("Met welk algoritme wil je dit oplossen?")
     print("  1: Random\n  2: Greedy\n  3: Greedy Lookahead")
 
@@ -76,10 +78,25 @@ def prompt_algorithm():
             if steps in range(1, 21):
                 break
             print("Kies een getal tussen 1 en 20...")
-
-    print("Op welke manier wil je de beginstad van ieder traject kiezen?")
-    print("  1: Random\n  2: Meeste buren\n  3: Minste buren")
     
+    if answer == 2 or answer == 3:
+        print("Op welke manier wil je de beginstad van ieder traject kiezen?")
+        print("  1: Random\n  2: Meeste buren\n  3: Minste buren")
+        
+        while True:
+            start = input()
+            if start.isdigit():
+                start = int(start)
+            if start == 1 or start == 2 or start == 3:
+                break
+            print("Vul '1', '2' of '3' in om een keuze te maken")
+        
+        if start == 1:
+            start = "random"
+        if start == 2:
+            start = "most"
+        if start == 3:
+            start = "least"
 
     print("Wil je hillclimber toepassen op het gekozen algoritme?")
     print("  1: Ja\n  2: Nee")
@@ -103,11 +120,11 @@ def prompt_algorithm():
 
     elif answer == 2:
         algorithm = glp
-        best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects])
+        best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects, start])
 
     elif answer == 3:
         algorithm = gf
-        best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects, steps])
+        best_answer = compare_outputs(algorithm, [load_connections, max_time, max_trajects, steps, start])
 
     # Run hill climber algoritme
     if hill_flag == 1:
