@@ -8,7 +8,7 @@ Binnen een gegeven tijdsframe worden een aantal trajecten verbonden. Een traject
 ## Vereisten
 Dit project vereist geen externe packages.
 
-## Gebruiksaanwijzing:
+## Gebruiksaanwijzing
 Om een oplossing te verkrijgen voor de gewenste lijnvoering, moet main.py gerund worden. Deze file zal de gebruiker vragen welke algoritmes er gerund moeten worden. Main.py runt het gewenste algoritme 1000 keer, zodat er op die manier hoogstwaarschijnlijk een goede oplossing verschijnt. Vervolgens zal er een output verschijnen met de naam: 'output.csv' in de data map. 
 
     python3 main.py
