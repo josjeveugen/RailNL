@@ -1,6 +1,4 @@
 import random
-import csv
-import matplotlib.pyplot as plt
 
 # Algorithm that checks ahead which neighbours will
 # make a longer traject with a shorter duration
@@ -81,16 +79,6 @@ class Algorithm(object):
         if new_neigh == []:
             return neighbours
         return new_neigh
-
-    def choose_shortest_time(self, city, neighbours):
-        prev_neigh = neighbours[0]
-        best_neigh = prev_neigh
-
-        for neighbour in neighbours:
-            if city.get_time(neighbour) < city.get_time(prev_neigh):
-                best_neigh = neighbour
-
-        return best_neigh
 
     def choose_shortest_time_forward(self, city):
         # Chooses a random path and checks which path has the shortest time
